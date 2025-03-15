@@ -1,11 +1,10 @@
-
 // ---- File: index.html ----
 
 {% extends "base.html" %}
 {% block title %}{{ tool_name }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-4 mt-4">
+<div class="container-fluid px-4 compact">
     <h2>{{ tool_name }}</h2>
     <p class="lead">Search for patents using the USPTO Open Data Portal API</p>
     
@@ -14,8 +13,8 @@
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Search Parameters</h5>
         </div>
-        <div class="card-body">
-            <form id="searchForm">
+        <div class="card-body compact-form">
+            <form id="searchForm">-
                 <!-- Search Type Selection -->
                 <div class="row mb-2">
                     <div class="col-md-12">
@@ -101,7 +100,7 @@
                 </div>
                 
                 <!-- Common Parameters -->
-                <div class="row mb-3 mt-3">
+                <div class="row mb-2 mt-2">
                     <div class="col-md-4">
                         <label for="resultsLimit" class="form-label">Results Per Page</label>
                         <select class="form-select" id="resultsLimit">
@@ -138,7 +137,7 @@
                 </div>
                 
                 <!-- Common Date Range Filter -->
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="mb-2">
                             <label class="form-label">Filing Date Range</label>
@@ -152,7 +151,7 @@
                         <label for="dateTo" class="form-label">To Date</label>
                         <input type="date" class="form-control" id="dateTo" required>
                     </div>
-                    <div class="col-md-12 mt-2">
+                    <div class="col-md-12 mt-1">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Date range shortcuts">
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="oneYearBtn" onclick="setDateRange(1)">1yr</button>
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="twoYearBtn" onclick="setDateRange(2)">2yr</button>
@@ -160,12 +159,12 @@
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="fiveYearBtn" onclick="setDateRange(5)">5yr</button>
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="tenYearBtn" onclick="setDateRange(10)">10yr</button>
                         </div>
-                        <small class="text-muted ms-2">Quick date range selection</small>
+                        <small class="text-muted ms-2">Quick date range</small>
                     </div>
                 </div>
                 
                 <!-- Preview Query Section -->
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" id="showQueryPreview">
@@ -202,7 +201,7 @@
                 </div>
                 
                 <!-- Search Button -->
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary" id="searchBtn">Search</button>
                         <button type="button" class="btn btn-outline-secondary" id="resetBtn">Reset</button>
@@ -210,17 +209,17 @@
                 </div>
                 
                 <!-- Replace the Saved Searches section with JSON Output -->
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center py-1">
                                 <h6 class="mb-0">API Response JSON</h6>
                                 <button class="btn btn-sm btn-outline-secondary" id="clearJsonBtn">
                                     <i class="bi bi-x"></i> Clear
                                 </button>
                             </div>
                             <div class="card-body p-0">
-                                <pre id="jsonOutput" class="m-0 p-2" style="max-height: 150px; overflow-y: auto; font-size: 0.75rem; background-color: #f8f9fa;">No search performed yet</pre>
+                                <pre id="jsonOutput" class="m-0 p-2" style="max-height: 120px; overflow-y: auto; font-size: 0.75rem; background-color: #f8f9fa;">No search performed yet</pre>
                             </div>
                         </div>
                     </div>
@@ -232,9 +231,9 @@
     <!-- Results Section -->
     <div id="resultsContainer" class="d-none">
         <div class="card">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2">
                 <div class="d-flex align-items-center">
-                    <h5 class="mb-0 me-3">Search Results</h5>
+                    <h5 class="mb-0 me-2">Search Results</h5>
                     <div class="form-check form-switch ms-2">
                         <input class="form-check-input" type="checkbox" id="showDetailsToggle" checked>
                         <label class="form-check-label text-white" for="showDetailsToggle">Show Details</label>
@@ -244,8 +243,8 @@
                     <i class="bi bi-file-earmark-excel"></i> Export to Excel
                 </button>
             </div>
-            <div class="card-body">
-                <div id="resultsStats" class="alert alert-info py-2">
+            <div class="card-body compact-form">
+                <div id="resultsStats" class="alert alert-info py-1 mb-2">
                     <span id="resultCount">0</span> results found
                 </div>
                 <div id="resultsList" class="list-group">
@@ -253,14 +252,14 @@
                 </div>
                 
                 <!-- Pagination -->
-                <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-1">
                     <div>
                         <span id="paginationInfo">Showing 0-0 of 0</span>
                     </div>
-                    <div class="btn-group">
+                    <div class="btn-group btn-group-sm">
                         <button type="button" class="btn btn-outline-secondary" id="prevPageBtn" disabled>Previous</button>
                         <button type="button" class="btn btn-outline-secondary" id="nextPageBtn" disabled>Next</button>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -385,8 +384,8 @@
             document.querySelectorAll('.search-type-help').forEach(el => el.classList.add('d-none'));
             
             // Show the appropriate container and help text
-            document.getElementById(${searchType}-params).classList.remove('d-none');
-            document.getElementById(${searchType}-help).classList.remove('d-none');
+            document.getElementById(`${searchType}-params`).classList.remove('d-none');
+            document.getElementById(`${searchType}-help`).classList.remove('d-none');
             
             // Update query preview if enabled
             if (showQueryPreviewCheckbox.checked) {
@@ -412,7 +411,7 @@
                     '/patent_database/api/export-csv' : 
                     '/api/export-csv';
                 
-                console.log(Exporting Excel from: ${apiPath});
+                console.log(`Exporting Excel from: ${apiPath}`);
                 
                 // Add format parameter for Excel
                 searchParams.format = 'excel';
@@ -533,7 +532,7 @@
 
         // Add some global styles with original spacing and typography
         const style = document.createElement('style');
-        style.textContent = 
+        style.textContent = `
             body {
                 font-size: 1rem;
             }
@@ -602,57 +601,298 @@
                 padding-top: 0.5rem !important;
                 padding-bottom: 0.5rem !important;
             }
-        ;
+        `;
         document.head.appendChild(style);
     });
     
-    // Function to load search fields data
-    function loadSearchFields() {
-        // Load fields from CSV where include?=1
-        searchFields = [
-            { property: 'applicationNumberText', description: 'The unique number assigned by the USPTO to a patent application when it is filed.', type: 'String' },
-            { property: 'firstApplicantName', description: 'Name of the Applicant with Rank One. Listed as first applicant in the patent application.', type: 'String' },
-            { property: 'firstInventorName', description: 'Name of the inventor with Rank One. Listed as first inventor in the patent application.', type: 'String' },
-            { property: 'applicationStatusDescriptionText', description: 'Status of the application; values: new = new application', type: 'String' },
-            { property: 'applicationTypeCategory', description: 'The category of the application', type: 'String' },
-            { property: 'inventionTitle', description: 'Title of invention/application: The clear and concise technical description of the invention as provided by the patent applicant.', type: 'String' },
-            { property: 'patentNumber', description: 'The unique number assigned by the USPTO to a granted/issued patent.', type: 'String' },
-            { property: 'pctPublicationNumber', description: 'PCT publication number', type: 'String' },
-            { property: 'firstName', description: 'First Name.', type: 'String' },
-            { property: 'lastName', description: 'Last Name.', type: 'String' },
-            { property: 'countryName', description: 'Country name.', type: 'String' },
-            { property: 'parentPatentNumber', description: 'The number that uniquely identifies an issued patent.', type: 'String' }
-        ];
+    // Function to load search fields from CSV
+    async function loadSearchFields() {
+        try {
+            console.log('Starting CSV loading process...');
+            
+            // Determine URL prefix based on path
+            const urlPrefix = window.location.pathname.endsWith('/') ? '' : '/';
+            
+            // Define multiple paths to try
+            const csvPath = urlPrefix + 'api/search-fields-csv';
+            const directPath = urlPrefix + 'api/search-fields-csv-direct';
+            const staticPath = urlPrefix + 'api/static-csv-content';
+            const hardcodedPath = urlPrefix + 'api/direct-csv-data';
+            
+            console.log(`Trying primary CSV path: ${csvPath}`);
+
+            // Try primary route first
+            let primaryError = null;
+            try {
+                const response = await fetch(csvPath);
+                console.log(`Primary CSV fetch status: ${response.status}`);
+                
+                if (!response.ok) {
+                    primaryError = new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+                    throw primaryError;
+                }
+                
+                const csvText = await response.text();
+                console.log(`Received CSV data (first 100 chars): ${csvText.substring(0, 100)}`);
+                parseCSV(csvText);
+                return; // Success, exit function
+            } catch (error) {
+                console.error('Error fetching CSV from primary path:', error);
+                primaryError = error;
+            }
+            
+            // Try direct route if primary fails
+            let directError = null;
+            console.log(`Trying direct CSV path: ${directPath}`);
+            try {
+                const directResponse = await fetch(directPath);
+                console.log(`Direct CSV fetch status: ${directResponse.status}`);
+                
+                if (!directResponse.ok) {
+                    directError = new Error(`Direct route failed: ${directResponse.status} ${directResponse.statusText}`);
+                    throw directError;
+                }
+                
+                const directCsvText = await directResponse.text();
+                console.log(`Received direct CSV data (first 100 chars): ${directCsvText.substring(0, 100)}`);
+                parseCSV(directCsvText);
+                return; // Success, exit function
+            } catch (error) {
+                console.error('Error fetching CSV from direct path:', error);
+                directError = error;
+            }
+            
+            // Try static route if both previous fail
+            let staticError = null;
+            console.log(`Trying static CSV path: ${staticPath}`);
+            try {
+                const staticResponse = await fetch(staticPath);
+                console.log(`Static CSV fetch status: ${staticResponse.status}`);
+                
+                if (!staticResponse.ok) {
+                    staticError = new Error(`Static route failed: ${staticResponse.status} ${staticResponse.statusText}`);
+                    throw staticError;
+                }
+                
+                const staticCsvText = await staticResponse.text();
+                console.log(`Received static CSV data (first 100 chars): ${staticCsvText.substring(0, 100)}`);
+                parseCSV(staticCsvText);
+                return; // Success, exit function
+            } catch (error) {
+                console.error('Error fetching CSV from static path:', error);
+                staticError = error;
+            }
+            
+            // Try hardcoded data route as final network attempt
+            let hardcodedError = null;
+            console.log(`Trying hardcoded CSV path: ${hardcodedPath}`);
+            try {
+                const hardcodedResponse = await fetch(hardcodedPath);
+                console.log(`Hardcoded CSV fetch status: ${hardcodedResponse.status}`);
+                
+                if (!hardcodedResponse.ok) {
+                    hardcodedError = new Error(`Hardcoded route failed: ${hardcodedResponse.status} ${hardcodedResponse.statusText}`);
+                    throw hardcodedError;
+                }
+                
+                const hardcodedCsvText = await hardcodedResponse.text();
+                console.log(`Received hardcoded CSV data (first 100 chars): ${hardcodedCsvText.substring(0, 100)}`);
+                parseCSV(hardcodedCsvText);
+                return; // Success, exit function
+            } catch (error) {
+                console.error('Error fetching CSV from hardcoded path:', error);
+                hardcodedError = error;
+            }
+            
+            // Final fallback: Use hardcoded data function
+            console.log('All network routes failed, using hardcoded data function');
+            try {
+                loadHardcodedFields();
+                console.log('Successfully loaded hardcoded fields');
+                return;
+            } catch (inlineError) {
+                console.error('Even hardcoded fields function failed:', inlineError);
+                // At this point, we're out of options
+                showCSVError(primaryError, directError, staticError, hardcodedError);
+            }
+        } catch (error) {
+            console.error('Fatal error in loadSearchFields:', error);
+            showCSVError(new Error('Fatal error: ' + error.message));
+        }
+    }
+    
+    // Function to process the CSV data 
+    function parseCSV(csvText) {
+        if (!csvText || csvText.trim() === '') {
+            console.error('Received empty CSV text');
+            throw new Error('Received empty CSV file');
+        }
         
+        console.log(`CSV text received, length: ${csvText.length}`);
+        console.log(`CSV text preview: ${csvText.slice(0, 300)}`);
+        
+        const rows = csvText.split('\n');
+        console.log(`Number of rows parsed: ${rows.length}`);
+        
+        if (rows.length < 2) {
+            console.error('CSV has insufficient rows');
+            throw new Error('CSV format error: insufficient rows');
+        }
+        
+        const headers = rows[0].split(',');
+        console.log('CSV headers:', headers);
+        
+        // Look for expected column names with different possible variations
+        let propertyIndex = headers.indexOf('property');
+        if (propertyIndex === -1) propertyIndex = headers.indexOf('Data Property');
+        
+        let displayNameIndex = headers.indexOf('displayName');
+        if (displayNameIndex === -1) displayNameIndex = headers.indexOf('Display Name');
+        
+        let descriptionIndex = headers.indexOf('description');
+        if (descriptionIndex === -1) descriptionIndex = headers.indexOf('Description');
+        
+        let typeIndex = headers.indexOf('type');
+        if (typeIndex === -1) typeIndex = headers.indexOf('Type');
+        
+        let includeIndex = headers.indexOf('include?');
+        if (includeIndex === -1) includeIndex = headers.indexOf('Include');
+
+        console.log('Column indexes -', 
+            'Property:', propertyIndex, 
+            'Description:', descriptionIndex,
+            'Type:', typeIndex,
+            'Display Name:', displayNameIndex,
+            'Include:', includeIndex
+        );
+
+        if (propertyIndex === -1 || descriptionIndex === -1 || typeIndex === -1 || displayNameIndex === -1) {
+            console.error('CSV headers are incorrect or missing. Required headers: property/Data Property, description/Description, type/Type, displayName/Display Name');
+            throw new Error('CSV format error: missing required headers');
+        }
+
+        // Clear existing search fields
+        searchFields = [];
+        
+        // Process each row and build the searchFields array
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i].trim();
+            if (!row) {
+                console.log(`Skipping empty row ${i + 1}`);
+                continue;
+            }
+            
+            const columns = row.split(',');
+            
+            if (columns.length < Math.max(propertyIndex, descriptionIndex, typeIndex, displayNameIndex) + 1) {
+                console.warn(`Row ${i + 1} has insufficient columns:`, columns);
+                continue;
+            }
+            
+            // Check if this field should be included
+            let include = true;
+            if (includeIndex !== -1) {
+                const includeValue = columns[includeIndex].trim().toLowerCase();
+                include = (includeValue === '1' || includeValue === 'yes' || includeValue === 'true');
+            }
+            
+            if (!include) {
+                console.log(`Skipping field: ${columns[displayNameIndex]} (include flag is not set)`);
+                continue;
+            }
+            
+            const field = {
+                property: columns[propertyIndex].trim(),
+                description: columns[descriptionIndex].trim(),
+                type: columns[typeIndex].trim(),
+                displayName: columns[displayNameIndex].trim()
+            };
+            
+            // Only add fields that have at least a property and display name
+            if (field.property && field.displayName) {
+                searchFields.push(field);
+                console.log(`Adding field: ${field.displayName} (${field.property})`);
+            } else {
+                console.warn(`Skipping invalid field at row ${i+1}:`, field);
+            }
+        }
+
+        console.log(`Loaded ${searchFields.length} search fields`);
+        if (searchFields.length === 0) {
+            console.warn('No fields were loaded from the CSV. Check that some rows have include flag set');
+        }
+
         // Populate boolean search dropdowns with these fields
+        populateBooleanFields();
+        console.log('===== CSV LOADING SUCCESSFUL =====');
+    }
+    
+    // Function to display CSV loading errors
+    function showCSVError(primaryError, directError, staticError, hardcodedError) {
+        // Try to display a user-friendly error message
+        const errorMessageElement = document.getElementById('csv-error-message');
+        if (errorMessageElement) {
+            errorMessageElement.textContent = `Failed to load search fields: ${primaryError.message}`;
+            errorMessageElement.classList.remove('d-none');
+        } else {
+            // If no dedicated error element exists, create one
+            const errorDiv = document.createElement('div');
+            errorDiv.id = 'csv-error-message';
+            errorDiv.className = 'alert alert-danger';
+            errorDiv.innerHTML = `
+                <h5>Failed to load search fields:</h5>
+                <p><strong>Primary route error:</strong> ${primaryError.message}</p>
+                ${directError ? `<p><strong>Direct route error:</strong> ${directError.message}</p>` : ''}
+                ${staticError ? `<p><strong>Static route error:</strong> ${staticError.message}</p>` : ''}
+                ${hardcodedError ? `<p><strong>Hardcoded route error:</strong> ${hardcodedError.message}</p>` : ''}
+                <p><strong>Please check:</strong></p>
+                <ol>
+                    <li>Server logs for detailed error information</li>
+                    <li>Absolute path in config.py: <code>r'B:\WindsurfProjects\patent_database\Search_Fields_with_Query_Syntax.csv'</code></li>
+                    <li>File exists at that location with read permissions</li>
+                </ol>
+            `;
+            document.getElementById('searchForm').prepend(errorDiv);
+        }
+        
+        // Show a direct alert for easier visibility during debugging
+        alert(`CSV load error: All routes failed.\n- Primary: ${primaryError.message}\n${directError ? `- Direct: ${directError.message}\n` : ''}${staticError ? `- Static: ${staticError.message}\n` : ''}${hardcodedError ? `- Hardcoded: ${hardcodedError.message}\n` : ''}Check server logs for details.`);
+        
+        // Add fallback data for development/debugging
+        searchFields = [
+            { property: 'inventionTitle', displayName: 'Title', description: 'Title of invention', type: 'String' },
+            { property: 'applicationNumberText', displayName: 'Application #', description: 'Application number', type: 'String' },
+            { property: 'firstInventorName', displayName: 'First Inventor', description: 'Name of first inventor', type: 'String' }
+        ];
+        console.log('Using fallback field data for development');
         populateBooleanFields();
     }
     
-    // Function to populate boolean search dropdowns with a "No Field" option
+    // Update populateBooleanFields to use displayName
     function populateBooleanFields() {
         const booleanFieldSelects = document.querySelectorAll('.boolean-field');
-        
+
         booleanFieldSelects.forEach(select => {
             // Clear existing options
             select.innerHTML = '';
-            
+
             // Add "No Field" option
             const noFieldOption = document.createElement('option');
             noFieldOption.value = "";
             noFieldOption.textContent = "-- No Field --";
             noFieldOption.dataset.description = "Search without a specific field. The value will be used as a raw search term.";
             select.appendChild(noFieldOption);
-            
+
             // Add options from searchFields
             searchFields.forEach(field => {
                 const option = document.createElement('option');
-                option.value = applicationMetaData.${field.property};
-                option.textContent = field.property; // Display just the property name without prefix
+                option.value = `applicationMetaData.${field.property}`;
+                option.textContent = field.displayName; // Use displayName for dropdown
                 option.dataset.description = field.description;
                 option.dataset.type = field.type;
                 select.appendChild(option);
             });
-            
+
             // Update the description for the initially selected field
             updateFieldDescription(select);
         });
@@ -679,7 +919,7 @@
         const newTerm = document.createElement('div');
         newTerm.className = 'boolean-term row mb-2';
         
-        newTerm.innerHTML = 
+        newTerm.innerHTML = `
             <div class="col-md-2">
                 <label class="form-label small">Operator</label>
                 <select class="form-select boolean-operator">
@@ -687,39 +927,39 @@
                     <option value="OR">OR</option>
                     <option value="NOT">NOT</option>
                 </select>
-                    </div>
+            </div>
             <div class="col-md-4">
                 <label class="form-label small">Field</label>
                 <select class="form-select boolean-field"></select>
                 <small class="form-text text-muted field-description"></small>
-                        </div>
+            </div>
             <div class="col-md-5">
                 <label class="form-label small">Value</label>
                 <input type="text" class="form-control boolean-value" placeholder="Enter search value">
-                        </div>
+            </div>
             <div class="col-md-1 d-flex align-items-center">
                 <button type="button" class="btn btn-outline-danger btn-sm remove-term">
                     <i class="bi bi-trash"></i>
-                        </button>
+                </button>
             </div>
-        ;
-        
+        `;
+
         booleanTerms.appendChild(newTerm);
-        
+
         // Populate the field dropdown
         const fieldSelect = newTerm.querySelector('.boolean-field');
         searchFields.forEach(field => {
             const option = document.createElement('option');
-            option.value = applicationMetaData.${field.property};
-            option.textContent = field.property;
+            option.value = `applicationMetaData.${field.property}`;
+            option.textContent = field.displayName;
             option.dataset.description = field.description;
             option.dataset.type = field.type;
             fieldSelect.appendChild(option);
         });
-        
+
         // Update the description for the selected field
         updateFieldDescription(fieldSelect);
-        
+
         // Add event listener for remove button
         const removeBtn = newTerm.querySelector('.remove-term');
         if (removeBtn) {
@@ -785,38 +1025,38 @@
             // Handle boolean search
             const booleanTerms = document.querySelectorAll('.boolean-term');
             let booleanQueryParts = [];
-            
+
             booleanTerms.forEach((term, index) => {
                 const field = term.querySelector('.boolean-field')?.value || '';
                 const value = term.querySelector('.boolean-value')?.value || '';
-                
+
                 if (value) {
                     // Format values with quotes if needed
                     const formattedValue = formatQueryValue(value);
-                    
+
                     if (index === 0) {
                         // First term doesn't need an operator
                         if (field) {
                             // If field is selected, use field:value format
-                            booleanQueryParts.push(${field}:${formattedValue});
+                            booleanQueryParts.push(`${field}:${formattedValue}`);
                         } else {
                             // If no field is selected, use raw value
-                            booleanQueryParts.push(${formattedValue});
+                            booleanQueryParts.push(`${formattedValue}`);
                         }
                     } else {
                         // Add operator for subsequent terms
                         const operator = term.querySelector('.boolean-operator')?.value || 'AND';
                         if (field) {
                             // If field is selected, use field:value format
-                            booleanQueryParts.push(${operator} ${field}:${formattedValue});
+                            booleanQueryParts.push(`${operator} ${field}:${formattedValue}`);
                         } else {
                             // If no field is selected, use raw value
-                            booleanQueryParts.push(${operator} ${formattedValue});
+                            booleanQueryParts.push(`${operator} ${formattedValue}`);
                         }
                     }
                 }
             });
-            
+
             if (booleanQueryParts.length > 0) {
                 params.q = booleanQueryParts.join(' ');
             }
@@ -824,9 +1064,9 @@
             // Handle field-specific search
             const field = document.getElementById('fieldSpecificField')?.value;
             const value = document.getElementById('fieldSpecificValue')?.value;
-            
+
             if (field && value) {
-                params.q = ${field}:${formatQueryValue(value)};
+                params.q = `${field}:${formatQueryValue(value)}`;
             }
         }
 
@@ -848,14 +1088,14 @@
     // Helper function to format query values
     function formatQueryValue(value) {
         value = value.trim();
-        
+
         // Check if the value contains spaces and isn't already quoted
         if (value.includes(' ') && !((value.startsWith('"') && value.endsWith('"')) || 
                                    (value.startsWith("'") && value.endsWith("'")))) {
             // Add quotes for multi-word values
-            return "${value}";
+            return `"${value}"`;
         }
-        
+
         // Return value as is if it's already quoted or is a single word
         return value;
     }
@@ -925,7 +1165,7 @@
             // Add a timestamp to show we're searching now
             const timestampElement = document.createElement('p');
             timestampElement.className = 'mt-2 mb-0';
-            timestampElement.innerHTML = <strong>Search initiated:</strong> ${new Date().toISOString()};
+            timestampElement.innerHTML = `<strong>Search initiated:</strong> ${new Date().toISOString()}`;
             debugOutput.innerHTML = ''; // Clear previous response info
             debugOutput.appendChild(timestampElement);
         }
@@ -949,11 +1189,11 @@
                 if (showDebugInfo) {
                     const errorElement = document.createElement('p');
                     errorElement.style.color = 'red';
-                    errorElement.innerHTML = <strong>Error:</strong> HTTP ${response.status} - ${response.statusText};
+                    errorElement.innerHTML = `<strong>Error:</strong> HTTP ${response.status} - ${response.statusText}`;
                     debugOutput.appendChild(errorElement);
                 }
-                jsonOutput.textContent = Error: HTTP ${response.status} - ${response.statusText};
-                throw new Error(Network response was not ok: ${response.status} ${response.statusText});
+                jsonOutput.textContent = `Error: HTTP ${response.status} - ${response.statusText}`;
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
             }
             return response.json();
         })
@@ -963,11 +1203,11 @@
             // Show response in debug area if enabled
             if (showDebugInfo) {
                 const responseElement = document.createElement('p');
-                responseElement.innerHTML = <strong>Response received:</strong> ${data.count || 0} results;
+                responseElement.innerHTML = `<strong>Response received:</strong> ${data.count || 0} results`;
                 debugOutput.appendChild(responseElement);
                 
                 // Create a collapsible section for the response
-                const responseId = response-${Date.now()};
+                const responseId = `response-${Date.now()}`;
                 const toggleButton = document.createElement('button');
                 toggleButton.className = 'btn btn-sm btn-outline-secondary';
                 toggleButton.type = 'button';
@@ -979,7 +1219,7 @@
                 const responseDetails = document.createElement('div');
                 responseDetails.id = responseId;
                 responseDetails.className = 'mt-2 d-none';
-                responseDetails.innerHTML = <pre class="bg-light p-2 rounded" style="max-height: 400px; overflow: auto;">${JSON.stringify(data, null, 2)}</pre>;
+                responseDetails.innerHTML = `<pre class="bg-light p-2 rounded" style="max-height: 400px; overflow: auto;">${JSON.stringify(data, null, 2)}</pre>`;
                 
                 debugOutput.appendChild(toggleButton);
                 debugOutput.appendChild(responseDetails);
@@ -998,7 +1238,7 @@
                 // Our backend might wrap the response in a data object
                 currentSearchResults = data.data.patentFileWrapperDataBag;
                 totalResults = data.data.count || data.data.metadata?.total || 0;
-                } else {
+            } else {
                 currentSearchResults = [];
                 totalResults = 0;
                 console.error('Unexpected API response structure:', data);
@@ -1006,7 +1246,7 @@
                 if (showDebugInfo) {
                     const errorElement = document.createElement('p');
                     errorElement.style.color = 'red';
-                    errorElement.innerHTML = <strong>Error:</strong> Unexpected API response structure;
+                    errorElement.innerHTML = `<strong>Error:</strong> Unexpected API response structure`;
                     debugOutput.appendChild(errorElement);
                 }
             }
@@ -1018,25 +1258,25 @@
             document.getElementById('resultsContainer').classList.remove('d-none');
             
             // Log success
-            const successMsg = Search completed successfully. Found ${totalResults} results.;
+            const successMsg = `Search completed successfully. Found ${totalResults} results.`;
             console.log(successMsg);
             
             if (showDebugInfo) {
                 const successElement = document.createElement('p');
                 successElement.style.color = 'green';
-                successElement.innerHTML = <strong>Success:</strong> ${successMsg};
+                successElement.innerHTML = `<strong>Success:</strong> ${successMsg}`;
                 debugOutput.appendChild(successElement);
-                }
-            })
-            .catch(error => {
+            }
+        })
+        .catch(error => {
             console.error('Error performing search:', error);
             alert('Error performing search: ' + error.message);
-            jsonOutput.textContent = Error: ${error.message};
+            jsonOutput.textContent = `Error: ${error.message}`;
             
             if (showDebugInfo) {
                 const errorElement = document.createElement('p');
                 errorElement.style.color = 'red';
-                errorElement.innerHTML = <strong>Error:</strong> ${error.message};
+                errorElement.innerHTML = `<strong>Error:</strong> ${error.message}`;
                 debugOutput.appendChild(errorElement);
             }
         });
@@ -1059,7 +1299,7 @@
         const end = Math.min(start + pageSize, currentSearchResults.length);
         
         // Update pagination info
-        paginationInfo.textContent = Showing ${start + 1}-${end} of ${totalResults};
+        paginationInfo.textContent = `Showing ${start + 1}-${end} of ${totalResults}`;
         
         // Display results
         const resultsToShow = currentSearchResults.slice(start, end);
@@ -1082,7 +1322,7 @@
                 inventorsHtml = metadata.inventorBag
                     .map((inventor, index) => {
                         const name = inventor.inventorNameText || '';
-                        return index === 0 ? <strong>${name}</strong> : name;
+                        return index === 0 ? `<strong>${name}</strong>` : name;
                     })
                     .filter(Boolean)
                     .join(', ');
@@ -1093,7 +1333,7 @@
                     .filter(Boolean)
                     .join(', ');
             } else if (metadata.firstInventorName) {
-                inventorsHtml = <strong>${metadata.firstInventorName}</strong>;
+                inventorsHtml = `<strong>${metadata.firstInventorName}</strong>`;
                 inventors = metadata.firstInventorName;
             }
             
@@ -1117,12 +1357,12 @@
             let publicationUrl = '';
             if (publicationNumber !== 'N/A') {
                 // Format: US patent publication page
-                publicationUrl = https://ppubs.uspto.gov/pubwebapp/external.html?q=${publicationNumber};
+                publicationUrl = `https://ppubs.uspto.gov/pubwebapp/external.html?q=${publicationNumber}`;
             }
             
             // Basic information with enumerated title, chevron, and compact layout
             let content = 
-                <div class="d-flex align-items-start">
+                `<div class="d-flex align-items-start">
                     <button class="btn btn-sm toggle-details-btn me-2" aria-expanded="${showDetails ? 'true' : 'false'}">
                         <i class="bi ${showDetails ? 'bi-chevron-down' : 'bi-chevron-right'}"></i>
                     </button>
@@ -1134,7 +1374,7 @@
                             <span class="me-3"><strong>Filed:</strong> ${filingDate}</span>
                             <span class="me-3"><strong>Applicant:</strong> ${applicant}</span>
                             <span class="me-3"><strong>Pub #:</strong> ${publicationNumber !== 'N/A' ? 
-                                <a href="${publicationUrl}" target="_blank" class="text-primary">${publicationNumber}</a> : 
+                                `<a href="${publicationUrl}" target="_blank" class="text-primary">${publicationNumber}</a>` : 
                                 publicationNumber}</span>
                             <span><strong>Status:</strong> ${applicationStatus}</span>
                         </div>
@@ -1151,8 +1391,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            ;
+                </div>`;
             
             resultItem.innerHTML = content;
             resultsList.appendChild(resultItem);
@@ -1180,6 +1419,25 @@
         
         // Show the results container
         document.getElementById('resultsContainer').classList.remove('d-none');
+    }
+
+    // Final fallback function with hardcoded data
+    function loadHardcodedFields() {
+        console.log('Loading hardcoded search fields as absolute last fallback');
+        searchFields = [
+            { property: 'inventionTitle', displayName: 'Title', description: 'Title of invention', type: 'String' },
+            { property: 'assigneeEntityName', displayName: 'Assignee', description: 'Patent assignee/owner', type: 'String' },
+            { property: 'firstNamedInventor', displayName: 'First Inventor', description: 'Name of first inventor', type: 'String' },
+            { property: 'applicationNumberText', displayName: 'Application #', description: 'Application number', type: 'String' },
+            { property: 'publicationNumber', displayName: 'Publication #', description: 'Publication number', type: 'String' },
+            { property: 'grantDate', displayName: 'Grant Date', description: 'Date patent was granted', type: 'Date' },
+            { property: 'publicationDate', displayName: 'Publication Date', description: 'Date patent was published', type: 'Date' },
+            { property: 'filingDate', displayName: 'Filing Date', description: 'Date application was filed', type: 'Date' },
+            { property: 'abstractText', displayName: 'Abstract', description: 'Abstract text of patent', type: 'String' },
+            { property: 'patentApplicationType', displayName: 'App Type', description: 'Type of patent application', type: 'String' }
+        ];
+        console.log(`Loaded ${searchFields.length} hardcoded search fields`);
+        populateBooleanFields();
     }
 </script>
 {% endblock %}
