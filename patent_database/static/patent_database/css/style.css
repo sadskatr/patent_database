@@ -193,3 +193,208 @@
 .container-fluid.compact {
     padding-top: 0.5rem !important;
 }
+
+/* Table Dashboard Styles */
+#resultsTable {
+    font-size: 0.9rem;
+}
+
+#resultsTable th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.sortable {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.sortable:hover {
+    background-color: #e9ecef;
+}
+
+.sort-icon {
+    opacity: 0.4;
+    font-size: 0.8rem;
+    margin-left: 0.25rem;
+}
+
+th.sort-asc .sort-icon::before {
+    content: "\F12D"; /* bootstrap arrow-up icon */
+    opacity: 1;
+}
+
+th.sort-desc .sort-icon::before {
+    content: "\F130"; /* bootstrap arrow-down icon */
+    opacity: 1;
+}
+
+th.active-sort .sort-icon {
+    opacity: 1;
+}
+
+/* Actions button in table */
+.btn-action {
+    padding: 0.1rem 0.4rem;
+    font-size: 0.75rem;
+}
+
+.action-dropdown {
+    font-size: 0.85rem;
+}
+
+.table-responsive {
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+/* Highlight cells with filtered content */
+.highlight-match {
+    background-color: rgba(255, 243, 205, 0.5);
+}
+
+/* View toggle buttons */
+#tableViewBtn.active, #cardViewBtn.active {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+/* Filter icon styling */
+.filter-icon {
+    opacity: 0.4;
+    font-size: 0.8rem;
+    margin-left: 0.25rem;
+    cursor: pointer;
+}
+
+.filter-icon:hover {
+    opacity: 1;
+}
+
+.filterable {
+    position: relative;
+}
+
+/* Centered truncated text in table cells */
+.truncate-cell {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+/* Utility classes for table cells */
+.cell-sm {
+    max-width: 100px;
+}
+
+.cell-md {
+    max-width: 150px;
+}
+
+.cell-lg {
+    max-width: 200px;
+}
+
+/* Modified column sizes */
+.title-cell {
+    font-weight: 500;
+    max-width: 400px; /* Increased from 300px */
+}
+
+.applicant-cell {
+    width: auto; /* Changed from fixed max-width to auto-width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Column filter dropdown */
+.column-filter-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    padding: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 250px;
+    display: none;
+}
+
+.column-filter-dropdown.show {
+    display: block;
+}
+
+.column-filter-dropdown .dropdown-header {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.column-filter-dropdown .filter-search {
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.column-filter-dropdown .filter-items {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.column-filter-dropdown .filter-item {
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.column-filter-dropdown .filter-item:hover {
+    background-color: #f8f9fa;
+}
+
+.column-filter-dropdown .filter-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Filter badge indicators */
+.filter-badge {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    margin-left: 5px;
+    position: relative;
+    top: -5px;
+}
+
+/* Collapsible card header styles */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.toggle-icon.collapsed {
+    transform: rotate(180deg);
+}

@@ -11,7 +11,7 @@
     <!-- Search Parameters Form -->
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Search Parameters</h5>
+            <h5 class="mb-0 cursor-pointer" id="searchParametersHeader">Search Parameters <i class="bi bi-chevron-up float-end toggle-icon"></i></h5>
         </div>
         <div class="card-body compact-form">
             <form id="searchForm">-
@@ -173,7 +173,7 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="showJsonResponse" checked>
+                            <input class="form-check-input" type="checkbox" id="showJsonResponse">
                             <label class="form-check-label" for="showJsonResponse">
                                 API Response JSON
                             </label>
@@ -209,7 +209,7 @@
                 </div>
                 
                 <!-- Replace the Saved Searches section with JSON Output -->
-                <div class="row mb-2">
+                <div class="row mb-2" id="jsonResponseContainer">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center py-1">
@@ -234,21 +234,63 @@
             <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2">
                 <div class="d-flex align-items-center">
                     <h5 class="mb-0 me-2">Search Results</h5>
-                    <div class="form-check form-switch ms-2">
-                        <input class="form-check-input" type="checkbox" id="showDetailsToggle" checked>
-                        <label class="form-check-label text-white" for="showDetailsToggle">Show Details</label>
-                    </div>
                 </div>
-                <button id="exportExcelBtn" class="btn btn-light btn-sm">
-                    <i class="bi bi-file-earmark-excel"></i> Export to Excel
-                </button>
+                <div>
+                    <button id="tableViewBtn" class="btn btn-light btn-sm active me-2">
+                        <i class="bi bi-table"></i> Table View
+                    </button>
+                    <button id="cardViewBtn" class="btn btn-light btn-sm me-2">
+                        <i class="bi bi-card-list"></i> Card View
+                    </button>
+                    <button id="exportExcelBtn" class="btn btn-light btn-sm">
+                        <i class="bi bi-file-earmark-excel"></i> Export to Excel
+                    </button>
+                </div>
             </div>
             <div class="card-body compact-form">
-                <div id="resultsStats" class="alert alert-info py-1 mb-2">
-                    <span id="resultCount">0</span> results found
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div id="resultsStats" class="alert alert-info py-1 mb-0">
+                        <span id="resultCount">0</span> results found
+                    </div>
+                    <div class="d-flex">
+                        <div class="input-group input-group-sm me-2" style="width: 250px;">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control" id="tableSearchFilter" placeholder="Filter results...">
+                        </div>
+                    </div>
                 </div>
-                <div id="resultsList" class="list-group">
-                    <!-- Results will be inserted here -->
+                
+                <!-- Table Results View -->
+                <div id="tableResultsView">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-sm align-middle" id="resultsTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="sortable filterable" data-sort="title" data-field="title">Title <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="filingDate" data-field="filingDate">Filed <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="applicant" data-field="applicant">Applicant <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="publicationNumber" data-field="publicationNumber">Pub # <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="status" data-field="status">Status <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="type" data-field="type">Type <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="customerNumber" data-field="customerNumber">Customer # <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="examiner" data-field="examiner">Examiner <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="inventors" data-field="inventors">Inventors <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th class="sortable filterable" data-sort="applicationNumber" data-field="applicationNumber">App # <i class="bi bi-arrow-down-up sort-icon"></i><i class="bi bi-funnel filter-icon"></i><span class="filter-badge d-none"></span></th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <!-- Results will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Card Results View (original version) -->
+                <div id="cardResultsView" class="d-none">
+                    <div id="resultsList" class="list-group">
+                        <!-- Results will be inserted here as before -->
+                    </div>
                 </div>
                 
                 <!-- Pagination -->
@@ -290,7 +332,7 @@
         const queryExamplesPanel = document.getElementById('queryExamplesPanel');
         const exportExcelBtn = document.getElementById('exportExcelBtn');
         const addBooleanTermBtn = document.getElementById('addBooleanTerm');
-        const jsonResponseContainer = document.querySelector('.row.mb-3 .card');
+        const jsonResponseContainer = document.getElementById('jsonResponseContainer');
         const clearJsonBtn = document.getElementById('clearJsonBtn');
         
         // Load search fields data
@@ -305,6 +347,21 @@
             });
         }
 
+        // Setup table sorting
+        setupTableSorting();
+        
+        // Setup filtering
+        setupTableFilter();
+        
+        // Setup view toggling
+        setupViewToggle();
+        
+        // Setup column filtering
+        setupColumnFiltering();
+        
+        // Setup collapsible search parameters
+        setupCollapsibleCard();
+        
         // Event listener for the JSON response toggle
         if (showJsonResponseCheckbox) {
             showJsonResponseCheckbox.addEventListener('change', function() {
@@ -312,6 +369,11 @@
                     jsonResponseContainer.classList.toggle('d-none', !this.checked);
                 }
             });
+            
+            // Initialize JSON container visibility based on checkbox state
+            if (jsonResponseContainer) {
+                jsonResponseContainer.classList.toggle('d-none', !showJsonResponseCheckbox.checked);
+            }
         }
         
         // Reset button functionality
@@ -1228,44 +1290,89 @@
             // Update the JSON output
             jsonOutput.textContent = JSON.stringify(data, null, 2);
             
-            // Extract results - handle both direct API response (like in test_simple.py)
-            // and wrapped response from our backend
-            if (data.patentFileWrapperDataBag) {
-                // Direct API response format
-                currentSearchResults = data.patentFileWrapperDataBag;
-                totalResults = data.count || 0;
-            } else if (data.data && data.data.patentFileWrapperDataBag) {
-                // Our backend might wrap the response in a data object
-                currentSearchResults = data.data.patentFileWrapperDataBag;
-                totalResults = data.data.count || data.data.metadata?.total || 0;
-            } else {
-                currentSearchResults = [];
-                totalResults = 0;
-                console.error('Unexpected API response structure:', data);
+            // Reset pagination and store results
+            currentPage = 0;
+            
+            // Process the results - handle different response formats
+            if ((data.results && data.results.length > 0) || 
+                (data.patentFileWrapperDataBag && data.patentFileWrapperDataBag.length > 0) ||
+                (data.data && data.data.patentFileWrapperDataBag && data.data.patentFileWrapperDataBag.length > 0)) {
+                
+                // Extract results - handle both direct API response and wrapped response from our backend
+                if (data.patentFileWrapperDataBag) {
+                    // Direct API response format
+                    currentSearchResults = data.patentFileWrapperDataBag;
+                    totalResults = data.count || data.patentFileWrapperDataBag.length;
+                } else if (data.data && data.data.patentFileWrapperDataBag) {
+                    // Our backend might wrap the response in a data object
+                    currentSearchResults = data.data.patentFileWrapperDataBag;
+                    totalResults = data.data.count || data.data.metadata?.total || data.data.patentFileWrapperDataBag.length;
+                } else if (data.results) {
+                    // New format
+                    currentSearchResults = data.results;
+                    totalResults = data.count || data.results.length;
+                }
+                
+                // Update display
+                updateResultsDisplay();
+                
+                // Clear any table filters
+                const tableSearchFilter = document.getElementById('tableSearchFilter');
+                if (tableSearchFilter) {
+                    tableSearchFilter.value = '';
+                }
+                
+                // Scroll to results
+                document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+                
+                // Collapse the search parameters card after successful search
+                collapseSearchCard();
+                
+                // Log success
+                const successMsg = `Search completed successfully. Found ${totalResults} results.`;
+                console.log(successMsg);
                 
                 if (showDebugInfo) {
-                    const errorElement = document.createElement('p');
-                    errorElement.style.color = 'red';
-                    errorElement.innerHTML = `<strong>Error:</strong> Unexpected API response structure`;
-                    debugOutput.appendChild(errorElement);
+                    const successElement = document.createElement('p');
+                    successElement.style.color = 'green';
+                    successElement.innerHTML = `<strong>Success:</strong> ${successMsg}`;
+                    debugOutput.appendChild(successElement);
                 }
-            }
-            
-            currentPage = 0;
-
-            // Update the UI
-            updateResultsDisplay();
-            document.getElementById('resultsContainer').classList.remove('d-none');
-            
-            // Log success
-            const successMsg = `Search completed successfully. Found ${totalResults} results.`;
-            console.log(successMsg);
-            
-            if (showDebugInfo) {
-                const successElement = document.createElement('p');
-                successElement.style.color = 'green';
-                successElement.innerHTML = `<strong>Success:</strong> ${successMsg}`;
-                debugOutput.appendChild(successElement);
+            } else {
+                // No results found
+                currentSearchResults = [];
+                totalResults = 0;
+                
+                // Show "No results" message in both views
+                document.getElementById('resultsList').innerHTML = `
+                    <div class="alert alert-warning">
+                        No results found. Please try different search parameters.
+                    </div>
+                `;
+                
+                document.getElementById('resultsTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="11" class="text-center py-3">
+                            <div class="alert alert-warning mb-0">
+                                No results found. Please try different search parameters.
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
+                // Update result count
+                document.getElementById('resultCount').textContent = '0';
+                
+                // Show the container anyway to display the no results message
+                document.getElementById('resultsContainer').classList.remove('d-none');
+                
+                console.log('No results found');
+                
+                if (showDebugInfo) {
+                    const infoElement = document.createElement('p');
+                    infoElement.innerHTML = `<strong>Info:</strong> No results found for the search query.`;
+                    debugOutput.appendChild(infoElement);
+                }
             }
         })
         .catch(error => {
@@ -1284,15 +1391,17 @@
 
     function updateResultsDisplay() {
         const resultsList = document.getElementById('resultsList');
+        const resultsTableBody = document.getElementById('resultsTableBody');
         const resultCount = document.getElementById('resultCount');
         const paginationInfo = document.getElementById('paginationInfo');
-        const showDetails = document.getElementById('showDetailsToggle').checked;
+        const showDetails = document.getElementById('showDetailsToggle') ? document.getElementById('showDetailsToggle').checked : true;
         
         // Update result count
         resultCount.textContent = totalResults;
         
         // Clear existing results
         resultsList.innerHTML = '';
+        resultsTableBody.innerHTML = '';
         
         // Calculate pagination
         const start = currentPage * pageSize;
@@ -1303,11 +1412,9 @@
         
         // Display results
         const resultsToShow = currentSearchResults.slice(start, end);
+        
+        // Populate both views (table and cards)
         resultsToShow.forEach((result, index) => {
-            const resultItem = document.createElement('div');
-            resultItem.className = 'list-group-item py-0 patent-result';
-            resultItem.dataset.patentIndex = index;
-            
             // Extract data from the nested structure
             const metadata = result.applicationMetaData || {};
             const title = metadata.inventionTitle || 'No Title';
@@ -1356,9 +1463,58 @@
             // Create publication URL if available
             let publicationUrl = '';
             if (publicationNumber !== 'N/A') {
-                // Format: US patent publication page
                 publicationUrl = `https://ppubs.uspto.gov/pubwebapp/external.html?q=${publicationNumber}`;
             }
+            
+            // 1. Create table row for table view
+            const tableRow = document.createElement('tr');
+            tableRow.dataset.patentIndex = index;
+            tableRow.dataset.title = title;
+            tableRow.dataset.filingDate = filingDate;
+            tableRow.dataset.applicant = applicant;
+            tableRow.dataset.publicationNumber = publicationNumber;
+            tableRow.dataset.status = applicationStatus;
+            tableRow.dataset.type = applicationType;
+            tableRow.dataset.customerNumber = customerNumber;
+            tableRow.dataset.examiner = examiner;
+            tableRow.dataset.inventors = inventors;
+            tableRow.dataset.applicationNumber = applicationNumber;
+            
+            tableRow.innerHTML = `
+                <td><span class="truncate-cell title-cell" title="${title}">${index + 1}. ${title.toUpperCase()}</span></td>
+                <td>${filingDate}</td>
+                <td><span class="truncate-cell applicant-cell" title="${applicant}">${applicant}</span></td>
+                <td>${publicationNumber !== 'N/A' ? 
+                        `<a href="${publicationUrl}" target="_blank" class="text-primary">${publicationNumber}</a>` : 
+                        publicationNumber}</td>
+                <td>${applicationStatus}</td>
+                <td>${applicationType}</td>
+                <td>${customerNumber}</td>
+                <td>${examiner}</td>
+                <td><span class="truncate-cell cell-lg" title="${inventors}">${inventors}</span></td>
+                <td>${applicationNumber}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle btn-action" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu action-dropdown">
+                            <li><a class="dropdown-item view-details-btn" href="#" data-index="${index}"><i class="bi bi-eye me-2"></i>View Details</a></li>
+                            <li><a class="dropdown-item" href="${publicationUrl}" target="_blank"><i class="bi bi-box-arrow-up-right me-2"></i>Open USPTO</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item copy-data-btn" href="#" data-field="title"><i class="bi bi-clipboard me-2"></i>Copy Title</a></li>
+                            <li><a class="dropdown-item copy-data-btn" href="#" data-field="applicationNumber"><i class="bi bi-clipboard me-2"></i>Copy App #</a></li>
+                        </ul>
+                    </div>
+                </td>
+            `;
+            
+            resultsTableBody.appendChild(tableRow);
+            
+            // 2. Create card item for card view (original display)
+            const resultItem = document.createElement('div');
+            resultItem.className = 'list-group-item py-0 patent-result';
+            resultItem.dataset.patentIndex = index;
             
             // Basic information with enumerated title, chevron, and compact layout
             let content = 
@@ -1398,27 +1554,18 @@
             
             // Add event listener for the chevron toggle button
             const toggleBtn = resultItem.querySelector('.toggle-details-btn');
-            toggleBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const detailsSection = resultItem.querySelector('.patent-details');
-                const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-                
-                // Toggle the details section
-                detailsSection.classList.toggle('d-none', isExpanded);
-                
-                // Update the button state
-                toggleBtn.setAttribute('aria-expanded', !isExpanded);
-                toggleBtn.querySelector('i').classList.toggle('bi-chevron-right', isExpanded);
-                toggleBtn.querySelector('i').classList.toggle('bi-chevron-down', !isExpanded);
-            });
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const expanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !expanded);
+                    this.querySelector('i').className = expanded ? 'bi bi-chevron-right' : 'bi bi-chevron-down';
+                    resultItem.querySelector('.patent-details').classList.toggle('d-none', expanded);
+                });
+            }
         });
-        
-        // Update pagination buttons
-        document.getElementById('prevPageBtn').disabled = currentPage === 0;
-        document.getElementById('nextPageBtn').disabled = end >= totalResults;
-        
-        // Show the results container
-        document.getElementById('resultsContainer').classList.remove('d-none');
+
+        // Call updatePagination after displaying results
+        updatePagination();
     }
 
     // Final fallback function with hardcoded data
@@ -1438,6 +1585,452 @@
         ];
         console.log(`Loaded ${searchFields.length} hardcoded search fields`);
         populateBooleanFields();
+    }
+
+    // Table sorting functionality
+    function setupTableSorting() {
+        const tableHeaders = document.querySelectorAll('#resultsTable th.sortable');
+        tableHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const sortField = this.getAttribute('data-sort');
+                let sortDirection = 'asc';
+                
+                // If already sorted, toggle direction
+                if (this.classList.contains('sort-asc')) {
+                    sortDirection = 'desc';
+                    this.classList.remove('sort-asc');
+                    this.classList.add('sort-desc');
+                } else if (this.classList.contains('sort-desc')) {
+                    sortDirection = 'asc';
+                    this.classList.remove('sort-desc');
+                    this.classList.add('sort-asc');
+                } else {
+                    // First time sorting this column
+                    // Clear other sort indicators
+                    tableHeaders.forEach(h => {
+                        h.classList.remove('sort-asc', 'sort-desc', 'active-sort');
+                    });
+                    this.classList.add('sort-asc', 'active-sort');
+                }
+                
+                // Sort the data
+                sortTableData(sortField, sortDirection);
+            });
+        });
+    }
+    
+    // Sort the table data
+    function sortTableData(field, direction) {
+        const tbody = document.getElementById('resultsTableBody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        // Sort the rows
+        rows.sort((a, b) => {
+            let aValue = a.dataset[field] || '';
+            let bValue = b.dataset[field] || '';
+            
+            // Handle different data types
+            if (field === 'filingDate' || field === 'publicationDate') {
+                // Date comparison
+                const aDate = new Date(aValue);
+                const bDate = new Date(bValue);
+                return direction === 'asc' ? 
+                    (aDate - bDate) : 
+                    (bDate - aDate);
+            } else if (field === 'customerNumber') {
+                // Numeric comparison
+                const aNum = parseInt(aValue) || 0;
+                const bNum = parseInt(bValue) || 0;
+                return direction === 'asc' ? 
+                    (aNum - bNum) : 
+                    (bNum - aNum);
+            } else {
+                // String comparison
+                return direction === 'asc' ? 
+                    aValue.localeCompare(bValue) : 
+                    bValue.localeCompare(aValue);
+            }
+        });
+        
+        // Re-append in sorted order
+        rows.forEach(row => tbody.appendChild(row));
+    }
+    
+    // Setup table filtering
+    function setupTableFilter() {
+        const filterInput = document.getElementById('tableSearchFilter');
+        if (filterInput) {
+            filterInput.addEventListener('input', function() {
+                const filterValue = this.value.toLowerCase().trim();
+                filterTableResults(filterValue);
+            });
+        }
+    }
+    
+    // Filter table results
+    function filterTableResults(filterValue) {
+        const rows = document.querySelectorAll('#resultsTableBody tr');
+        
+        rows.forEach(row => {
+            // Reset highlights
+            row.querySelectorAll('.highlight-match').forEach(el => {
+                el.classList.remove('highlight-match');
+            });
+            
+            if (!filterValue) {
+                row.style.display = '';
+                return;
+            }
+            
+            let found = false;
+            const cellsToSearch = row.querySelectorAll('td');
+            
+            cellsToSearch.forEach(cell => {
+                const cellText = cell.textContent.toLowerCase();
+                if (cellText.includes(filterValue)) {
+                    found = true;
+                    // Highlight match if it's in a span
+                    const spans = cell.querySelectorAll('span');
+                    if (spans.length > 0) {
+                        spans.forEach(span => {
+                            if (span.textContent.toLowerCase().includes(filterValue)) {
+                                span.classList.add('highlight-match');
+                            }
+                        });
+                    }
+                }
+            });
+            
+            row.style.display = found ? '' : 'none';
+        });
+        
+        // Update the count of visible rows
+        updateFilteredCount();
+    }
+    
+    // Update the count of filtered results
+    function updateFilteredCount() {
+        const visibleRows = document.querySelectorAll('#resultsTableBody tr:not([style*="display: none"])').length;
+        const totalRows = document.querySelectorAll('#resultsTableBody tr').length;
+        const resultCount = document.getElementById('resultCount');
+        
+        if (visibleRows < totalRows) {
+            resultCount.textContent = `${visibleRows} of ${totalRows}`;
+        } else {
+            resultCount.textContent = totalRows;
+        }
+    }
+    
+    // Setup view toggle between table and card views
+    function setupViewToggle() {
+        const tableViewBtn = document.getElementById('tableViewBtn');
+        const cardViewBtn = document.getElementById('cardViewBtn');
+        const tableResultsView = document.getElementById('tableResultsView');
+        const cardResultsView = document.getElementById('cardResultsView');
+        
+        if (tableViewBtn && cardViewBtn) {
+            tableViewBtn.addEventListener('click', function() {
+                tableResultsView.classList.remove('d-none');
+                cardResultsView.classList.add('d-none');
+                tableViewBtn.classList.add('active');
+                cardViewBtn.classList.remove('active');
+            });
+            
+            cardViewBtn.addEventListener('click', function() {
+                tableResultsView.classList.add('d-none');
+                cardResultsView.classList.remove('d-none');
+                tableViewBtn.classList.remove('active');
+                cardViewBtn.classList.add('active');
+            });
+        }
+    }
+    
+    // Add code for the "view details" button in the table
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.closest('.view-details-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.view-details-btn');
+            const index = button.getAttribute('data-index');
+            const result = currentSearchResults[index];
+            
+            // Here you could show a modal with details or expand a row
+            console.log('View details for result', result);
+            // TODO: Implement detail view
+        }
+        
+        if (e.target && e.target.closest('.copy-data-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.copy-data-btn');
+            const field = button.getAttribute('data-field');
+            const row = button.closest('tr');
+            const value = row.dataset[field];
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(value).then(() => {
+                // Show success notification
+                const originalText = button.textContent;
+                button.innerHTML = '<i class="bi bi-check me-2"></i>Copied!';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+    });
+    
+    // Add additional pagination functionality to update both views
+    function updatePagination() {
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        
+        // Calculate page bounds
+        const start = currentPage * pageSize;
+        const end = Math.min(start + pageSize, totalResults);
+        
+        // Update pagination buttons
+        prevPageBtn.disabled = currentPage === 0;
+        nextPageBtn.disabled = end >= totalResults;
+        
+        // Show the results container
+        document.getElementById('resultsContainer').classList.remove('d-none');
+    }
+
+    // Add column filtering functionality
+    function setupColumnFiltering() {
+        // Create a dropdown for filtering
+        const filterDropdown = document.createElement('div');
+        filterDropdown.id = 'columnFilterDropdown';
+        filterDropdown.className = 'column-filter-dropdown';
+        filterDropdown.innerHTML = `
+            <div class="dropdown-header">
+                <strong>Filter by <span id="filterColumnName"></span></strong>
+                <button type="button" class="btn btn-sm btn-close" id="closeFilterDropdown"></button>
+            </div>
+            <input type="text" class="filter-search" id="filterSearch" placeholder="Search values...">
+            <div class="filter-items" id="filterItems"></div>
+            <div class="filter-actions">
+                <button type="button" class="btn btn-sm btn-outline-primary" id="selectAllValues">Select All</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="clearAllValues">Clear All</button>
+                <button type="button" class="btn btn-sm btn-primary" id="applyFilter">Apply Filter</button>
+            </div>
+        `;
+        document.body.appendChild(filterDropdown);
+        
+        // Store active filters for each column
+        const columnFilters = {};
+        
+        // Add click event to filterable column headers
+        const filterableHeaders = document.querySelectorAll('.filterable');
+        filterableHeaders.forEach(header => {
+            const filterIcon = header.querySelector('.filter-icon');
+            if (filterIcon) {
+                filterIcon.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Don't trigger sorting when clicking filter icon
+                    showFilterDropdown(header);
+                });
+            }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.column-filter-dropdown') && !e.target.closest('.filter-icon')) {
+                filterDropdown.classList.remove('show');
+            }
+        });
+        
+        // Close dropdown button
+        document.getElementById('closeFilterDropdown').addEventListener('click', function() {
+            filterDropdown.classList.remove('show');
+        });
+        
+        // Filter search functionality
+        document.getElementById('filterSearch').addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            const items = document.querySelectorAll('#filterItems .filter-item');
+            items.forEach(item => {
+                const value = item.textContent.toLowerCase();
+                item.style.display = value.includes(searchText) ? '' : 'none';
+            });
+        });
+        
+        // Select all values
+        document.getElementById('selectAllValues').addEventListener('click', function() {
+            const items = document.querySelectorAll('#filterItems .filter-item input[type="checkbox"]');
+            items.forEach(item => {
+                item.checked = true;
+            });
+        });
+        
+        // Clear all values
+        document.getElementById('clearAllValues').addEventListener('click', function() {
+            const items = document.querySelectorAll('#filterItems .filter-item input[type="checkbox"]');
+            items.forEach(item => {
+                item.checked = false;
+            });
+        });
+        
+        // Apply filter
+        document.getElementById('applyFilter').addEventListener('click', function() {
+            const columnName = document.getElementById('filterColumnName').dataset.field;
+            const checkedValues = [];
+            
+            // Get all checked values
+            const checkboxes = document.querySelectorAll('#filterItems .filter-item input[type="checkbox"]:checked');
+            checkboxes.forEach(checkbox => {
+                checkedValues.push(checkbox.value);
+            });
+            
+            // Update the column filters
+            if (checkedValues.length === 0 || checkedValues.length === document.querySelectorAll('#filterItems .filter-item').length) {
+                // If all or none are selected, remove the filter
+                delete columnFilters[columnName];
+                document.querySelector(`th[data-field="${columnName}"] .filter-badge`).classList.add('d-none');
+            } else {
+                // Otherwise, apply the filter
+                columnFilters[columnName] = checkedValues;
+                document.querySelector(`th[data-field="${columnName}"] .filter-badge`).classList.remove('d-none');
+            }
+            
+            // Apply all filters
+            applyColumnFilters();
+            
+            // Hide the dropdown
+            filterDropdown.classList.remove('show');
+        });
+        
+        // Function to show the filter dropdown for a specific column
+        function showFilterDropdown(header) {
+            const columnName = header.textContent.split(' ')[0];
+            const field = header.dataset.field;
+            const rect = header.getBoundingClientRect();
+            const dropdown = document.getElementById('columnFilterDropdown');
+            
+            // Position the dropdown
+            dropdown.style.top = (rect.bottom + window.scrollY) + 'px';
+            dropdown.style.left = (rect.left + window.scrollX) + 'px';
+            
+            // Set the column name
+            const filterColumnName = document.getElementById('filterColumnName');
+            filterColumnName.textContent = columnName;
+            filterColumnName.dataset.field = field;
+            
+            // Clear any previous search
+            document.getElementById('filterSearch').value = '';
+            
+            // Populate unique values
+            populateUniqueValues(field);
+            
+            // Show the dropdown
+            dropdown.classList.add('show');
+        }
+        
+        // Function to populate unique values for a column
+        function populateUniqueValues(field) {
+            const filterItems = document.getElementById('filterItems');
+            filterItems.innerHTML = '';
+            
+            // Get unique values from the table
+            const uniqueValues = getUniqueColumnValues(field);
+            
+            // Sort the values
+            uniqueValues.sort((a, b) => {
+                if (a === 'N/A') return 1; // Place N/A at the end
+                if (b === 'N/A') return -1;
+                return a.localeCompare(b);
+            });
+            
+            // Create checkboxes for each value
+            uniqueValues.forEach(value => {
+                const item = document.createElement('div');
+                item.className = 'filter-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `filter-${field}-${value.replace(/[^a-zA-Z0-9]/g, '')}`;
+                checkbox.value = value;
+                checkbox.className = 'form-check-input me-2';
+                
+                // Check if the value is in the current filter
+                if (columnFilters[field]) {
+                    checkbox.checked = columnFilters[field].includes(value);
+                } else {
+                    checkbox.checked = true; // By default all are checked
+                }
+                
+                const label = document.createElement('label');
+                label.htmlFor = checkbox.id;
+                label.className = 'form-check-label';
+                label.textContent = value;
+                
+                item.appendChild(checkbox);
+                item.appendChild(label);
+                filterItems.appendChild(item);
+            });
+        }
+        
+        // Function to get unique values for a column
+        function getUniqueColumnValues(field) {
+            const values = new Set();
+            const rows = document.querySelectorAll('#resultsTableBody tr');
+            
+            rows.forEach(row => {
+                let value = row.dataset[field] || 'N/A';
+                values.add(value);
+            });
+            
+            return Array.from(values);
+        }
+        
+        // Function to apply all column filters
+        function applyColumnFilters() {
+            const rows = document.querySelectorAll('#resultsTableBody tr');
+            
+            rows.forEach(row => {
+                let visible = true;
+                
+                // Check each active filter
+                for (const [field, allowedValues] of Object.entries(columnFilters)) {
+                    const value = row.dataset[field] || 'N/A';
+                    if (!allowedValues.includes(value)) {
+                        visible = false;
+                        break;
+                    }
+                }
+                
+                row.style.display = visible ? '' : 'none';
+            });
+            
+            // Update the count of visible rows
+            updateFilteredCount();
+        }
+    }
+
+    // Function to setup collapsible search parameters card
+    function setupCollapsibleCard() {
+        const searchParametersHeader = document.getElementById('searchParametersHeader');
+        const cardBody = searchParametersHeader.closest('.card').querySelector('.card-body');
+        const toggleIcon = searchParametersHeader.querySelector('.toggle-icon');
+        
+        // Add click event listener to the header
+        searchParametersHeader.addEventListener('click', function() {
+            // Toggle card body visibility
+            cardBody.classList.toggle('d-none');
+            
+            // Toggle icon direction
+            toggleIcon.classList.toggle('collapsed');
+        });
+    }
+
+    // Function to collapse the search parameters card
+    function collapseSearchCard() {
+        const searchParametersHeader = document.getElementById('searchParametersHeader');
+        const cardBody = searchParametersHeader.closest('.card').querySelector('.card-body');
+        const toggleIcon = searchParametersHeader.querySelector('.toggle-icon');
+        
+        // Only collapse if it's not already collapsed
+        if (!cardBody.classList.contains('d-none')) {
+            cardBody.classList.add('d-none');
+            toggleIcon.classList.add('collapsed');
+        }
     }
 </script>
 {% endblock %}
