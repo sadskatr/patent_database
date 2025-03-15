@@ -1,0 +1,17 @@
+---
+description: This is my project's tech stack
+globs: 
+alwaysApply: false
+---
+a Flask tool with following structure:
+patent_database/
+├── run.py              # Standalone development server
+├── config.py           # Tool configuration
+└── tool/              # Main tool directory (will be copied to main project later)
+    ├── __init__.py    # Blueprint setup (creates patent_database_bp)
+    ├── routes.py      # Route handlers using patent_database_bp
+    ├── operations.py  # Core business logic
+    └── templates/     # Templates
+        ├── base.html  # Base template for standalone testing
+        └── patent_database/
+            └── index.html

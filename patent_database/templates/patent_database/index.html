@@ -1,0 +1,1185 @@
+
+// ---- File: index.html ----
+
+{% extends "base.html" %}
+{% block title %}{{ tool_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 mt-4">
+    <h2>{{ tool_name }}</h2>
+    <p class="lead">Search for patents using the USPTO Open Data Portal API</p>
+    
+    <!-- Search Parameters Form -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Search Parameters</h5>
+        </div>
+        <div class="card-body">
+            <form id="searchForm">
+                <!-- Search Type Selection -->
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <label for="searchType" class="form-label">Search Type</label>
+                        <select class="form-select" id="searchType">
+                            <option value="simple">Simple</option>
+                            <option value="boolean">Boolean</option>
+                            <option value="field_specific">Field Specific</option>
+                        </select>
+                        <small class="form-text text-muted search-type-help" id="simple-help">
+                            Simple keyword search across patent data
+                        </small>
+                        <small class="form-text text-muted search-type-help d-none" id="boolean-help">
+                            Combine multiple search terms with AND, OR, NOT operators
+                        </small>
+                        <small class="form-text text-muted search-type-help d-none" id="field_specific-help">
+                            Search in a specific field of the patent data
+                        </small>
+                    </div>
+                </div>
+                
+                <!-- Search Parameters (dynamically shown/hidden based on search type) -->
+                <div id="searchParamsContainer">
+                    <!-- Simple Search -->
+                    <div class="search-params" id="simple-params">
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <label for="simpleSearchTerm" class="form-label">Search Term</label>
+                                <input type="text" class="form-control" id="simpleSearchTerm" placeholder="Enter search term">
+                                <small class="form-text text-muted">Search across patent title and text</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Boolean Search -->
+                    <div class="search-params d-none" id="boolean-params">
+                        <div id="booleanTerms">
+                            <!-- First term (no operator) -->
+                            <div class="boolean-term first-term row mb-2">
+                                <div class="col-md-5">
+                                    <label class="form-label small">Field</label>
+                                    <select class="form-select boolean-field">
+                                        <!-- Will be populated by JavaScript -->
+                                    </select>
+                                    <small class="form-text text-muted field-description"></small>
+                                </div>
+                                <div class="col-md-7">
+                                    <label class="form-label small">Value</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control boolean-value" placeholder="Enter search value">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Additional terms (with operators) will be added here dynamically -->
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addBooleanTerm">
+                            <i class="bi bi-plus"></i> Add Term
+                        </button>
+                    </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Field-Specific Search -->
+                    <div class="search-params d-none" id="field_specific-params">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="fieldSpecificField" class="form-label">Field</label>
+                                <select class="form-select" id="fieldSpecificField">
+                                    {% for field in valid_fields.field_specific %}
+                                    <option value="{{ field }}">{{ field_display_names.get(field, field) }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fieldSpecificValue" class="form-label">Value</label>
+                                <input type="text" class="form-control" id="fieldSpecificValue" placeholder="Enter exact value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Common Parameters -->
+                <div class="row mb-3 mt-3">
+                    <div class="col-md-4">
+                        <label for="resultsLimit" class="form-label">Results Per Page</label>
+                        <select class="form-select" id="resultsLimit">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100 (maximum)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="applicationType" class="form-label">Application Type</label>
+                        <select class="form-select" id="applicationType">
+                            <option value="Utility" selected>Utility</option>
+                            <option value="Design">Design</option>
+                            <option value="Provisional">Provisional</option>
+                            <option value="PCT">PCT</option>
+                            <option value="All">All Types</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="sortField" class="form-label">Sort By</label>
+                        <div class="input-group">
+                            <select class="form-select" id="sortField">
+                                {% for field in valid_fields.sorting %}
+                                <option value="{{ field }}">{{ field_display_names.get(field, field) }}</option>
+                                {% endfor %}
+                            </select>
+                            <select class="form-select" id="sortOrder">
+                                <option value="desc">Descending</option>
+                                <option value="asc">Ascending</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Common Date Range Filter -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="mb-2">
+                            <label class="form-label">Filing Date Range</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateFrom" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="dateFrom" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateTo" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="dateTo" required>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Date range shortcuts">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="oneYearBtn" onclick="setDateRange(1)">1yr</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="twoYearBtn" onclick="setDateRange(2)">2yr</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="threeYearBtn" onclick="setDateRange(3)">3yr</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="fiveYearBtn" onclick="setDateRange(5)">5yr</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="tenYearBtn" onclick="setDateRange(10)">10yr</button>
+                        </div>
+                        <small class="text-muted ms-2">Quick date range selection</small>
+                    </div>
+                </div>
+                
+                <!-- Preview Query Section -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="showQueryPreview">
+                            <label class="form-check-label" for="showQueryPreview">
+                                Show API Debug Info
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="showJsonResponse" checked>
+                            <label class="form-check-label" for="showJsonResponse">
+                                API Response JSON
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="queryPreviewContainer" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">API Request Preview</h6>
+                        <button id="clearDebugInfoBtn" class="btn btn-sm btn-outline-secondary">Clear</button>
+                    </div>
+                    <div class="alert alert-secondary">
+                        <div class="mb-2">
+                            <strong>API Endpoint:</strong> <span id="endpointUrl"></span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Request Payload:</strong>
+                        <pre id="queryPreview" class="mb-0 bg-light p-2 rounded" style="font-size: 0.8rem;"></pre>
+                    </div>
+                    </div>
+                    <div id="debugOutput" class="alert alert-dark" style="max-height: 300px; overflow-y: auto; display: none;">
+                        <!-- Debug output will be inserted here -->
+                    </div>
+                </div>
+                
+                <!-- Search Button -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary" id="searchBtn">Search</button>
+                        <button type="button" class="btn btn-outline-secondary" id="resetBtn">Reset</button>
+                    </div>
+                </div>
+                
+                <!-- Replace the Saved Searches section with JSON Output -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">API Response JSON</h6>
+                                <button class="btn btn-sm btn-outline-secondary" id="clearJsonBtn">
+                                    <i class="bi bi-x"></i> Clear
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <pre id="jsonOutput" class="m-0 p-2" style="max-height: 150px; overflow-y: auto; font-size: 0.75rem; background-color: #f8f9fa;">No search performed yet</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div id="resultsContainer" class="d-none">
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <h5 class="mb-0 me-3">Search Results</h5>
+                    <div class="form-check form-switch ms-2">
+                        <input class="form-check-input" type="checkbox" id="showDetailsToggle" checked>
+                        <label class="form-check-label text-white" for="showDetailsToggle">Show Details</label>
+                    </div>
+                </div>
+                <button id="exportExcelBtn" class="btn btn-light btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Export to Excel
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="resultsStats" class="alert alert-info py-2">
+                    <span id="resultCount">0</span> results found
+                </div>
+                <div id="resultsList" class="list-group">
+                    <!-- Results will be inserted here -->
+                </div>
+                
+                <!-- Pagination -->
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <span id="paginationInfo">Showing 0-0 of 0</span>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary" id="prevPageBtn" disabled>Previous</button>
+                        <button type="button" class="btn btn-outline-secondary" id="nextPageBtn" disabled>Next</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Global variables
+    let debugMode = true;
+    let currentPage = 0;
+    let pageSize = 50;
+    let currentSearchResults = [];
+    let totalResults = 0;
+    // Store search field data from CSV
+    let searchFields = [];
+
+    // Initialize all event listeners and UI elements when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize controllers with original variable names and elements
+        const searchTypeSelect = document.getElementById('searchType');
+        const searchBtn = document.getElementById('searchBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const showQueryPreviewCheckbox = document.getElementById('showQueryPreview');
+        const showJsonResponseCheckbox = document.getElementById('showJsonResponse');
+        const queryPreviewContainer = document.getElementById('queryPreviewContainer');
+        const queryExamplesPanel = document.getElementById('queryExamplesPanel');
+        const exportExcelBtn = document.getElementById('exportExcelBtn');
+        const addBooleanTermBtn = document.getElementById('addBooleanTerm');
+        const jsonResponseContainer = document.querySelector('.row.mb-3 .card');
+        const clearJsonBtn = document.getElementById('clearJsonBtn');
+        
+        // Load search fields data
+        loadSearchFields();
+        
+        // Initialize form submission
+        const searchForm = document.getElementById('searchForm');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                performSearch();
+            });
+        }
+
+        // Event listener for the JSON response toggle
+        if (showJsonResponseCheckbox) {
+            showJsonResponseCheckbox.addEventListener('change', function() {
+                if (jsonResponseContainer) {
+                    jsonResponseContainer.classList.toggle('d-none', !this.checked);
+                }
+            });
+        }
+        
+        // Reset button functionality
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function() {
+                // Reset all form fields
+                document.getElementById('searchForm').reset();
+                
+                // Reset the boolean terms to just the first one
+                const booleanTerms = document.getElementById('booleanTerms');
+                const additionalTerms = booleanTerms.querySelectorAll('.boolean-term:not(.first-term)');
+                additionalTerms.forEach(term => term.remove());
+                
+                // Clear any results
+                document.getElementById('resultsList').innerHTML = '';
+                document.getElementById('resultsContainer').classList.add('d-none');
+                document.getElementById('jsonOutput').textContent = 'No search performed yet';
+                
+                // Reset pagination
+                currentPage = 0;
+                
+                // Update UI if needed
+                if (showQueryPreviewCheckbox.checked) {
+                    updateQueryPreview();
+                }
+            });
+        }
+
+        // After the resetBtn handler, restore the other event handlers
+        // UI elements for pagination
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const resultCount = document.getElementById('resultCount');
+        const resultsList = document.getElementById('resultsList');
+
+        // Boolean search event listeners
+        if (addBooleanTermBtn) {
+            addBooleanTermBtn.addEventListener('click', addBooleanTerm);
+        }
+
+        // Add event listener for boolean field selection to show descriptions
+        document.addEventListener('change', function(e) {
+            if (e.target && e.target.classList.contains('boolean-field')) {
+                updateFieldDescription(e.target);
+            }
+        });
+
+        // Date range shortcut function
+        window.setDateRange = function(years) {
+            const dateTo = document.getElementById('dateTo');
+            const dateFrom = document.getElementById('dateFrom');
+            
+            // Set the "to" date to today
+            const today = new Date();
+            dateTo.value = today.toISOString().split('T')[0];
+            
+            // Set the "from" date to X years ago
+            const fromDate = new Date();
+            fromDate.setFullYear(today.getFullYear() - years);
+            dateFrom.value = fromDate.toISOString().split('T')[0];
+        };
+
+        // Initialize search type change handler
+        searchTypeSelect.addEventListener('change', function() {
+            const searchType = this.value;
+            
+            // Hide all parameter containers and help text
+            document.querySelectorAll('.search-params').forEach(el => el.classList.add('d-none'));
+            document.querySelectorAll('.search-type-help').forEach(el => el.classList.add('d-none'));
+            
+            // Show the appropriate container and help text
+            document.getElementById(${searchType}-params).classList.remove('d-none');
+            document.getElementById(${searchType}-help).classList.remove('d-none');
+            
+            // Update query preview if enabled
+            if (showQueryPreviewCheckbox.checked) {
+                updateQueryPreview();
+            }
+        });
+
+        // Clear JSON button
+        if (clearJsonBtn) {
+            clearJsonBtn.addEventListener('click', function() {
+                document.getElementById('jsonOutput').textContent = 'No search performed yet';
+            });
+        }
+
+        // Export to Excel button event listener
+        if (exportExcelBtn) {
+            exportExcelBtn.addEventListener('click', function() {
+                // Get current search parameters
+                const searchParams = getSearchParams();
+                
+                // Check if we need to add the patent_database prefix
+                const apiPath = window.location.pathname.includes('/patent_database') ? 
+                    '/patent_database/api/export-csv' : 
+                    '/api/export-csv';
+                
+                console.log(Exporting Excel from: ${apiPath});
+                
+                // Add format parameter for Excel
+                searchParams.format = 'excel';
+                
+                // Send export request
+                fetch(apiPath, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(searchParams)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Create a link to download the file
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'patent_search_results.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Error exporting to Excel:', error);
+                    alert('Error exporting to Excel: ' + error.message);
+                });
+            });
+        }
+
+        // Show/hide query preview container
+        showQueryPreviewCheckbox.addEventListener('change', function() {
+            queryPreviewContainer.classList.toggle('d-none', !this.checked);
+            if (this.checked) {
+                updateQueryPreview();
+            }
+        });
+
+        // Add event listeners to update query preview when form fields change
+        const formElements = [
+            document.getElementById('searchType'),
+            document.getElementById('simpleSearchTerm'),
+            document.getElementById('fieldSpecificField'),
+            document.getElementById('fieldSpecificValue'),
+            document.getElementById('dateFrom'),
+            document.getElementById('dateTo'),
+            document.getElementById('resultsLimit'),
+            document.getElementById('sortField'),
+            document.getElementById('sortOrder')
+        ];
+
+        formElements.forEach(element => {
+            if (element) {
+                element.addEventListener('change', function() {
+                    if (showQueryPreviewCheckbox.checked) {
+                        updateQueryPreview();
+                    }
+                });
+
+                // For text inputs, also listen for keyup events
+                if (element.tagName === 'INPUT' && element.type === 'text') {
+                    element.addEventListener('keyup', function() {
+                        if (showQueryPreviewCheckbox.checked) {
+                            updateQueryPreview();
+                        }
+                    });
+                }
+            }
+        });
+
+        // Listen for changes to boolean terms
+        document.addEventListener('input', function(e) {
+            if (e.target && (
+                e.target.classList.contains('boolean-field') || 
+                e.target.classList.contains('boolean-value') || 
+                e.target.classList.contains('boolean-operator')
+            )) {
+                if (showQueryPreviewCheckbox.checked) {
+                    updateQueryPreview();
+                }
+            }
+        });
+
+        // Add click handler for clearDebugInfoBtn
+        const clearDebugInfoBtn = document.getElementById('clearDebugInfoBtn');
+        if (clearDebugInfoBtn) {
+            clearDebugInfoBtn.addEventListener('click', function() {
+                document.getElementById('debugOutput').innerHTML = '';
+                document.getElementById('debugOutput').style.display = 'none';
+            });
+        }
+
+        // Add event listener for the details toggle to expand/collapse all patents
+        const showDetailsToggle = document.getElementById('showDetailsToggle');
+        if (showDetailsToggle) {
+            showDetailsToggle.addEventListener('change', function() {
+                // Update all patent details sections
+                const detailsSections = document.querySelectorAll('.patent-details');
+                const toggleButtons = document.querySelectorAll('.toggle-details-btn');
+                
+                detailsSections.forEach(section => {
+                    section.classList.toggle('d-none', !this.checked);
+                });
+                
+                toggleButtons.forEach(button => {
+                    button.setAttribute('aria-expanded', this.checked);
+                    button.querySelector('i').classList.toggle('bi-chevron-right', !this.checked);
+                    button.querySelector('i').classList.toggle('bi-chevron-down', this.checked);
+                });
+            });
+        }
+
+        // Add some global styles with original spacing and typography
+        const style = document.createElement('style');
+        style.textContent = 
+            body {
+                font-size: 1rem;
+            }
+            .card {
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+                border: 1px solid rgba(0,0,0,0.125);
+                border-radius: 0.25rem;
+                margin-bottom: 1rem;
+            }
+            .card-header {
+                padding: 0.75rem 1.25rem;
+                border-bottom: 1px solid rgba(0,0,0,0.125);
+            }
+            .card-body {
+                padding: 1.25rem;
+            }
+            .form-control, .form-select {
+                padding: 0.375rem 0.75rem;
+                border-radius: 0.25rem;
+            }
+            .form-label {
+                margin-bottom: 0.5rem;
+                font-weight: normal;
+            }
+            .list-group-item {
+                padding: 0.75rem 1.25rem;
+            }
+            .boolean-term {
+                margin-bottom: 1rem !important;
+            }
+            .mb-3 {
+                margin-bottom: 1rem !important;
+            }
+            .mb-2 {
+                margin-bottom: 0.5rem !important;
+            }
+            .mb-1 {
+                margin-bottom: 0.25rem !important;
+            }
+            .mt-4 {
+                margin-top: 1.5rem !important;
+            }
+            .mt-3 {
+                margin-top: 1rem !important;
+            }
+            .mt-2 {
+                margin-top: 0.5rem !important;
+            }
+            .alert {
+                padding: 0.75rem 1.25rem;
+                margin-bottom: 1rem;
+            }
+            .search-params {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            .patent-title {
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
+            .container-fluid {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .py-2 {
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+        ;
+        document.head.appendChild(style);
+    });
+    
+    // Function to load search fields data
+    function loadSearchFields() {
+        // Load fields from CSV where include?=1
+        searchFields = [
+            { property: 'applicationNumberText', description: 'The unique number assigned by the USPTO to a patent application when it is filed.', type: 'String' },
+            { property: 'firstApplicantName', description: 'Name of the Applicant with Rank One. Listed as first applicant in the patent application.', type: 'String' },
+            { property: 'firstInventorName', description: 'Name of the inventor with Rank One. Listed as first inventor in the patent application.', type: 'String' },
+            { property: 'applicationStatusDescriptionText', description: 'Status of the application; values: new = new application', type: 'String' },
+            { property: 'applicationTypeCategory', description: 'The category of the application', type: 'String' },
+            { property: 'inventionTitle', description: 'Title of invention/application: The clear and concise technical description of the invention as provided by the patent applicant.', type: 'String' },
+            { property: 'patentNumber', description: 'The unique number assigned by the USPTO to a granted/issued patent.', type: 'String' },
+            { property: 'pctPublicationNumber', description: 'PCT publication number', type: 'String' },
+            { property: 'firstName', description: 'First Name.', type: 'String' },
+            { property: 'lastName', description: 'Last Name.', type: 'String' },
+            { property: 'countryName', description: 'Country name.', type: 'String' },
+            { property: 'parentPatentNumber', description: 'The number that uniquely identifies an issued patent.', type: 'String' }
+        ];
+        
+        // Populate boolean search dropdowns with these fields
+        populateBooleanFields();
+    }
+    
+    // Function to populate boolean search dropdowns with a "No Field" option
+    function populateBooleanFields() {
+        const booleanFieldSelects = document.querySelectorAll('.boolean-field');
+        
+        booleanFieldSelects.forEach(select => {
+            // Clear existing options
+            select.innerHTML = '';
+            
+            // Add "No Field" option
+            const noFieldOption = document.createElement('option');
+            noFieldOption.value = "";
+            noFieldOption.textContent = "-- No Field --";
+            noFieldOption.dataset.description = "Search without a specific field. The value will be used as a raw search term.";
+            select.appendChild(noFieldOption);
+            
+            // Add options from searchFields
+            searchFields.forEach(field => {
+                const option = document.createElement('option');
+                option.value = applicationMetaData.${field.property};
+                option.textContent = field.property; // Display just the property name without prefix
+                option.dataset.description = field.description;
+                option.dataset.type = field.type;
+                select.appendChild(option);
+            });
+            
+            // Update the description for the initially selected field
+            updateFieldDescription(select);
+        });
+    }
+    
+    // Function to update field description when a field is selected (with more compact display)
+    function updateFieldDescription(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const descriptionElement = selectElement.closest('.boolean-term').querySelector('.field-description');
+        
+        if (descriptionElement && selectedOption) {
+            // Truncate description if it's too long to save vertical space
+            let desc = selectedOption.dataset.description || '';
+            if (desc.length > 100) {
+                desc = desc.substring(0, 97) + '...';
+            }
+            descriptionElement.textContent = desc;
+        }
+    }
+    
+    // Function to add a new boolean term with reduced vertical space
+    function addBooleanTerm() {
+        const booleanTerms = document.getElementById('booleanTerms');
+        const newTerm = document.createElement('div');
+        newTerm.className = 'boolean-term row mb-2';
+        
+        newTerm.innerHTML = 
+            <div class="col-md-2">
+                <label class="form-label small">Operator</label>
+                <select class="form-select boolean-operator">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                    <option value="NOT">NOT</option>
+                </select>
+                    </div>
+            <div class="col-md-4">
+                <label class="form-label small">Field</label>
+                <select class="form-select boolean-field"></select>
+                <small class="form-text text-muted field-description"></small>
+                        </div>
+            <div class="col-md-5">
+                <label class="form-label small">Value</label>
+                <input type="text" class="form-control boolean-value" placeholder="Enter search value">
+                        </div>
+            <div class="col-md-1 d-flex align-items-center">
+                <button type="button" class="btn btn-outline-danger btn-sm remove-term">
+                    <i class="bi bi-trash"></i>
+                        </button>
+            </div>
+        ;
+        
+        booleanTerms.appendChild(newTerm);
+        
+        // Populate the field dropdown
+        const fieldSelect = newTerm.querySelector('.boolean-field');
+        searchFields.forEach(field => {
+            const option = document.createElement('option');
+            option.value = applicationMetaData.${field.property};
+            option.textContent = field.property;
+            option.dataset.description = field.description;
+            option.dataset.type = field.type;
+            fieldSelect.appendChild(option);
+        });
+        
+        // Update the description for the selected field
+        updateFieldDescription(fieldSelect);
+        
+        // Add event listener for remove button
+        const removeBtn = newTerm.querySelector('.remove-term');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', function() {
+                newTerm.remove();
+                updateQueryPreview();
+            });
+        }
+    }
+    
+    // Update the function to match test_simple.py query construction
+    function getSearchParams() {
+        // Get form values
+        const searchType = document.getElementById('searchType').value;
+        const resultsLimit = parseInt(document.getElementById('resultsLimit').value);
+        const sortField = document.getElementById('sortField').value;
+        const sortOrder = document.getElementById('sortOrder').value;
+        const dateFrom = document.getElementById('dateFrom').value;
+        const dateTo = document.getElementById('dateTo').value;
+        const simpleSearchTerm = document.getElementById('simpleSearchTerm').value;
+        const applicationType = document.getElementById('applicationType').value;
+
+        // Create payload structure exactly like test_simple.py
+        const params = {
+            fields: [
+                "inventionTitle",
+                "applicationNumberText",
+                "applicationMetaData",
+                "inventorNameText"
+            ],
+            pagination: {
+                limit: resultsLimit,
+                offset: currentPage * resultsLimit
+            },
+            rangeFilters: [],
+            sort: [
+                {
+                    field: sortField,
+                    order: sortOrder
+                }
+            ]
+        };
+
+        // Only add the filters if a specific application type is selected
+        if (applicationType !== 'All') {
+            params.filters = [
+                {
+                    "name": "applicationMetaData.applicationTypeLabelName",
+                    "value": [
+                        applicationType
+                    ]
+                }
+            ];
+        }
+
+        // Build query based on search type (keep it simple like test_simple.py)
+        if (searchType === 'simple') {
+            if (simpleSearchTerm && simpleSearchTerm.trim() !== '') {
+                // Simple search - use term directly without modifications
+                params.q = simpleSearchTerm.trim();
+            }
+        } else if (searchType === 'boolean') {
+            // Handle boolean search
+            const booleanTerms = document.querySelectorAll('.boolean-term');
+            let booleanQueryParts = [];
+            
+            booleanTerms.forEach((term, index) => {
+                const field = term.querySelector('.boolean-field')?.value || '';
+                const value = term.querySelector('.boolean-value')?.value || '';
+                
+                if (value) {
+                    // Format values with quotes if needed
+                    const formattedValue = formatQueryValue(value);
+                    
+                    if (index === 0) {
+                        // First term doesn't need an operator
+                        if (field) {
+                            // If field is selected, use field:value format
+                            booleanQueryParts.push(${field}:${formattedValue});
+                        } else {
+                            // If no field is selected, use raw value
+                            booleanQueryParts.push(${formattedValue});
+                        }
+                    } else {
+                        // Add operator for subsequent terms
+                        const operator = term.querySelector('.boolean-operator')?.value || 'AND';
+                        if (field) {
+                            // If field is selected, use field:value format
+                            booleanQueryParts.push(${operator} ${field}:${formattedValue});
+                        } else {
+                            // If no field is selected, use raw value
+                            booleanQueryParts.push(${operator} ${formattedValue});
+                        }
+                    }
+                }
+            });
+            
+            if (booleanQueryParts.length > 0) {
+                params.q = booleanQueryParts.join(' ');
+            }
+        } else if (searchType === 'field_specific') {
+            // Handle field-specific search
+            const field = document.getElementById('fieldSpecificField')?.value;
+            const value = document.getElementById('fieldSpecificValue')?.value;
+            
+            if (field && value) {
+                params.q = ${field}:${formatQueryValue(value)};
+            }
+        }
+
+        // Add date range filter if both dates are present, exactly like test_simple.py
+        if (dateFrom && dateTo) {
+            params.rangeFilters.push({
+                field: "applicationMetaData.filingDate",
+                valueFrom: dateFrom,
+                valueTo: dateTo
+            });
+        }
+
+        // Log the constructed query for debugging
+        console.log('Constructed query:', params.q);
+
+        return params;
+    }
+    
+    // Helper function to format query values
+    function formatQueryValue(value) {
+        value = value.trim();
+        
+        // Check if the value contains spaces and isn't already quoted
+        if (value.includes(' ') && !((value.startsWith('"') && value.endsWith('"')) || 
+                                   (value.startsWith("'") && value.endsWith("'")))) {
+            // Add quotes for multi-word values
+            return "${value}";
+        }
+        
+        // Return value as is if it's already quoted or is a single word
+        return value;
+    }
+
+    // Update the getApiKey function to use the backend key from config.py
+    function getApiKey() {
+        // Get the API key from the Flask backend via the correct template variable
+        return '{{ api_key }}';
+        // Note: If this doesn't work, check your Flask route to ensure it's passing the API key as 'api_key'
+    }
+
+    function updateQueryPreview() {
+        const params = getSearchParams();
+        const queryPreview = document.getElementById('queryPreview');
+        const endpointUrl = document.getElementById('endpointUrl');
+        
+        // Use the USPTO API URL directly
+        const completeUrl = "https://api.uspto.gov/api/v1/patent/applications/search";
+        
+        // Update endpoint URL display
+        endpointUrl.textContent = completeUrl;
+        
+        // Create a complete request object that includes everything we send
+        const completeRequest = {
+            url: completeUrl,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': getApiKey()
+            },
+            body: params
+        };
+        
+        // Update query preview with formatted JSON of the complete request
+        queryPreview.textContent = JSON.stringify(completeRequest, null, 2);
+        
+        // Don't show any additional debug information in the debugOutput section
+        document.getElementById('debugOutput').style.display = 'none';
+    }
+
+    function performSearch() {
+        const searchParams = getSearchParams();
+        const showDebugInfo = document.getElementById('showQueryPreview').checked;
+        const debugOutput = document.getElementById('debugOutput');
+        const queryPreview = document.getElementById('queryPreview');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        // Use the USPTO API URL directly
+        const completeUrl = "https://api.uspto.gov/api/v1/patent/applications/search";
+        
+        // Include the API key in headers
+        const apiKey = getApiKey();
+        const headers = {
+                'Content-Type': 'application/json'
+        };
+        
+        // Only add the API key if it's provided
+        if (apiKey) {
+            headers['X-API-KEY'] = apiKey;
+        }
+
+        // If debug info is showing, update the existing preview instead of adding a new one
+        if (showDebugInfo) {
+            // Show the debug output area
+            debugOutput.style.display = 'block';
+            
+            // Add a timestamp to show we're searching now
+            const timestampElement = document.createElement('p');
+            timestampElement.className = 'mt-2 mb-0';
+            timestampElement.innerHTML = <strong>Search initiated:</strong> ${new Date().toISOString()};
+            debugOutput.innerHTML = ''; // Clear previous response info
+            debugOutput.appendChild(timestampElement);
+        }
+
+        // Clear the JSON output
+        jsonOutput.textContent = 'Searching...';
+
+        // Log the request details
+        console.log('Sending search request to:', completeUrl);
+        console.log('Search parameters:', searchParams);
+        
+        // Make the API call
+        fetch(completeUrl, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(searchParams)
+        })
+        .then(response => {
+            if (!response.ok) {
+                // If debug is enabled, show the error details
+                if (showDebugInfo) {
+                    const errorElement = document.createElement('p');
+                    errorElement.style.color = 'red';
+                    errorElement.innerHTML = <strong>Error:</strong> HTTP ${response.status} - ${response.statusText};
+                    debugOutput.appendChild(errorElement);
+                }
+                jsonOutput.textContent = Error: HTTP ${response.status} - ${response.statusText};
+                throw new Error(Network response was not ok: ${response.status} ${response.statusText});
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('API response:', data);
+            
+            // Show response in debug area if enabled
+            if (showDebugInfo) {
+                const responseElement = document.createElement('p');
+                responseElement.innerHTML = <strong>Response received:</strong> ${data.count || 0} results;
+                debugOutput.appendChild(responseElement);
+                
+                // Create a collapsible section for the response
+                const responseId = response-${Date.now()};
+                const toggleButton = document.createElement('button');
+                toggleButton.className = 'btn btn-sm btn-outline-secondary';
+                toggleButton.type = 'button';
+                toggleButton.textContent = 'Toggle Response Details';
+                toggleButton.onclick = function() {
+                    document.getElementById(responseId).classList.toggle('d-none');
+                };
+                
+                const responseDetails = document.createElement('div');
+                responseDetails.id = responseId;
+                responseDetails.className = 'mt-2 d-none';
+                responseDetails.innerHTML = <pre class="bg-light p-2 rounded" style="max-height: 400px; overflow: auto;">${JSON.stringify(data, null, 2)}</pre>;
+                
+                debugOutput.appendChild(toggleButton);
+                debugOutput.appendChild(responseDetails);
+            }
+            
+            // Update the JSON output
+            jsonOutput.textContent = JSON.stringify(data, null, 2);
+            
+            // Extract results - handle both direct API response (like in test_simple.py)
+            // and wrapped response from our backend
+            if (data.patentFileWrapperDataBag) {
+                // Direct API response format
+                currentSearchResults = data.patentFileWrapperDataBag;
+                totalResults = data.count || 0;
+            } else if (data.data && data.data.patentFileWrapperDataBag) {
+                // Our backend might wrap the response in a data object
+                currentSearchResults = data.data.patentFileWrapperDataBag;
+                totalResults = data.data.count || data.data.metadata?.total || 0;
+                } else {
+                currentSearchResults = [];
+                totalResults = 0;
+                console.error('Unexpected API response structure:', data);
+                
+                if (showDebugInfo) {
+                    const errorElement = document.createElement('p');
+                    errorElement.style.color = 'red';
+                    errorElement.innerHTML = <strong>Error:</strong> Unexpected API response structure;
+                    debugOutput.appendChild(errorElement);
+                }
+            }
+            
+            currentPage = 0;
+
+            // Update the UI
+            updateResultsDisplay();
+            document.getElementById('resultsContainer').classList.remove('d-none');
+            
+            // Log success
+            const successMsg = Search completed successfully. Found ${totalResults} results.;
+            console.log(successMsg);
+            
+            if (showDebugInfo) {
+                const successElement = document.createElement('p');
+                successElement.style.color = 'green';
+                successElement.innerHTML = <strong>Success:</strong> ${successMsg};
+                debugOutput.appendChild(successElement);
+                }
+            })
+            .catch(error => {
+            console.error('Error performing search:', error);
+            alert('Error performing search: ' + error.message);
+            jsonOutput.textContent = Error: ${error.message};
+            
+            if (showDebugInfo) {
+                const errorElement = document.createElement('p');
+                errorElement.style.color = 'red';
+                errorElement.innerHTML = <strong>Error:</strong> ${error.message};
+                debugOutput.appendChild(errorElement);
+            }
+        });
+    }
+
+    function updateResultsDisplay() {
+        const resultsList = document.getElementById('resultsList');
+        const resultCount = document.getElementById('resultCount');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const showDetails = document.getElementById('showDetailsToggle').checked;
+        
+        // Update result count
+        resultCount.textContent = totalResults;
+        
+        // Clear existing results
+        resultsList.innerHTML = '';
+        
+        // Calculate pagination
+        const start = currentPage * pageSize;
+        const end = Math.min(start + pageSize, currentSearchResults.length);
+        
+        // Update pagination info
+        paginationInfo.textContent = Showing ${start + 1}-${end} of ${totalResults};
+        
+        // Display results
+        const resultsToShow = currentSearchResults.slice(start, end);
+        resultsToShow.forEach((result, index) => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'list-group-item py-0 patent-result';
+            resultItem.dataset.patentIndex = index;
+            
+            // Extract data from the nested structure
+            const metadata = result.applicationMetaData || {};
+            const title = metadata.inventionTitle || 'No Title';
+            const applicationNumber = result.applicationNumberText || 'N/A';
+            const filingDate = metadata.filingDate || 'N/A';
+            
+            // Handle inventors from the inventor bag
+            let inventors = 'N/A';
+            let inventorsHtml = '';
+            if (metadata.inventorBag && metadata.inventorBag.length > 0) {
+                // Create HTML with first inventor bold
+                inventorsHtml = metadata.inventorBag
+                    .map((inventor, index) => {
+                        const name = inventor.inventorNameText || '';
+                        return index === 0 ? <strong>${name}</strong> : name;
+                    })
+                    .filter(Boolean)
+                    .join(', ');
+                
+                // Create plain text for fallback
+                inventors = metadata.inventorBag
+                    .map(inventor => inventor.inventorNameText)
+                    .filter(Boolean)
+                    .join(', ');
+            } else if (metadata.firstInventorName) {
+                inventorsHtml = <strong>${metadata.firstInventorName}</strong>;
+                inventors = metadata.firstInventorName;
+            }
+            
+            // Get applicant information
+            let applicant = 'N/A';
+            if (metadata.applicantBag && metadata.applicantBag.length > 0) {
+                applicant = metadata.applicantBag[0].applicantNameText;
+            } else if (metadata.firstApplicantName) {
+                applicant = metadata.firstApplicantName;
+            }
+            
+            // Get the additional requested fields
+            const publicationDate = metadata.earliestPublicationDate || 'N/A';
+            const applicationType = metadata.applicationTypeLabelName || 'N/A';
+            const examiner = metadata.examinerNameText || 'N/A';
+            const publicationNumber = metadata.earliestPublicationNumber || 'N/A';
+            const customerNumber = metadata.customerNumber || 'N/A';
+            const applicationStatus = metadata.applicationStatusDescriptionText || 'N/A';
+            
+            // Create publication URL if available
+            let publicationUrl = '';
+            if (publicationNumber !== 'N/A') {
+                // Format: US patent publication page
+                publicationUrl = https://ppubs.uspto.gov/pubwebapp/external.html?q=${publicationNumber};
+            }
+            
+            // Basic information with enumerated title, chevron, and compact layout
+            let content = 
+                <div class="d-flex align-items-start">
+                    <button class="btn btn-sm toggle-details-btn me-2" aria-expanded="${showDetails ? 'true' : 'false'}">
+                        <i class="bi ${showDetails ? 'bi-chevron-down' : 'bi-chevron-right'}"></i>
+                    </button>
+                    <div class="flex-grow-1">
+                        <div class="patent-title-container">
+                            <h5 class="patent-title m-0">${index + 1}. ${title.toUpperCase()}</h5>
+                        </div>
+                        <div class="compact-info d-flex flex-wrap">
+                            <span class="me-3"><strong>Filed:</strong> ${filingDate}</span>
+                            <span class="me-3"><strong>Applicant:</strong> ${applicant}</span>
+                            <span class="me-3"><strong>Pub #:</strong> ${publicationNumber !== 'N/A' ? 
+                                <a href="${publicationUrl}" target="_blank" class="text-primary">${publicationNumber}</a> : 
+                                publicationNumber}</span>
+                            <span><strong>Status:</strong> ${applicationStatus}</span>
+                        </div>
+                        <div class="patent-details ${showDetails ? '' : 'd-none'}">
+                            <div class="detail-row">
+                                <span class="me-3"><strong>App #:</strong> ${applicationNumber}</span>
+                                <span class="me-3"><strong>Publication Date:</strong> ${publicationDate}</span>
+                                <span class="me-3"><strong>Type:</strong> ${applicationType}</span>
+                                <span class="me-3"><strong>Customer #:</strong> ${customerNumber}</span>
+                                <span><strong>Examiner:</strong> ${examiner}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span><strong>Inventors:</strong> ${inventorsHtml || inventors}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ;
+            
+            resultItem.innerHTML = content;
+            resultsList.appendChild(resultItem);
+            
+            // Add event listener for the chevron toggle button
+            const toggleBtn = resultItem.querySelector('.toggle-details-btn');
+            toggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const detailsSection = resultItem.querySelector('.patent-details');
+                const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                
+                // Toggle the details section
+                detailsSection.classList.toggle('d-none', isExpanded);
+                
+                // Update the button state
+                toggleBtn.setAttribute('aria-expanded', !isExpanded);
+                toggleBtn.querySelector('i').classList.toggle('bi-chevron-right', isExpanded);
+                toggleBtn.querySelector('i').classList.toggle('bi-chevron-down', !isExpanded);
+            });
+        });
+        
+        // Update pagination buttons
+        document.getElementById('prevPageBtn').disabled = currentPage === 0;
+        document.getElementById('nextPageBtn').disabled = end >= totalResults;
+        
+        // Show the results container
+        document.getElementById('resultsContainer').classList.remove('d-none');
+    }
+</script>
+{% endblock %}

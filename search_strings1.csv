@@ -1,0 +1,10 @@
+﻿Operator,Query,Explanation
+Single Field Query,"""q"": ""applicationMetaData.entityStatusData.businessEntityStatusCategory:Small""",Find data where entity status category is ‘Small’.
+OR Single Field Multi-Value,"""q"": ""applicationMetaData.applicationTypeLabelName:(Design OR Plant)""",Search data where application type label is either ‘Design’ or ‘Plant’.
+OR Multi-Field,"""q"": ""applicationMetaData.applicationTypeLabelName:Design OR applicationMetaData.entityStatusData:Micro""",Search data where applicationTypeLabelName is ‘Design’ OR businessEntityStatusCategory is ‘Micro’.
+AND Multi-Field,"""q"": ""applicationMetaData.applicationStatusDescriptionText:\""Patented Case\"" AND applicationMetaData.entityStatusData.businessEntityStatusCategory:Micro""",Search data where applicationStatusDescriptionText is ‘Patented Case’ AND businessEntityStatusCategory is ‘Micro’.
+Wildcard (*),"""q"": ""applicationMetaData.firstApplicantName:Technolog*""",Search data where firstApplicantName contains ‘Technolog’.
+Wildcard (?),"""q"": ""applicationMetaData.examinerNameText:ANDERS?N""",Search data where examinerNameText matches ‘ANDERS?N’ where ? can be replaced with any single character.
+Ranges (>=),"""q"": ""applicationMetaData.applicationStatusDate:>=2024-02-20""",Search data where applicationStatusDate is greater than or equal to 2024-02-20.
+Ranges (Number Min to Max),"""q"": ""applicationMetaData.applicationConfirmationNumber:[2700 TO 2710]""",Search data where applicationConfirmationNumber is between 2700 and 2710.
+Ranges (Date Min to Max),"""q"": ""applicationMetaData.filingDate:[2024-01-01 TO 2024-08-30]""",Search data where filingDate is from 2024-01-01 to 2024-08-30.

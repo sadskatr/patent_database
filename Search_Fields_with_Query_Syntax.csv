@@ -1,0 +1,197 @@
+Data Property,include?,Search Query Example,Description,Type
+PatentFileWrapperDataBag,0,"""q"": ""applicationMetaData.PatentFileWrapperDataBag:string""",Patent File Wrapper data.,
+applicationNumberText,1,"""q"": ""applicationMetaData.applicationNumberText:string""",The unique number assigned by the USPTO to a patent application when it is filed.,String
+applicationMetaData,0,"""q"": ""applicationMetaData.applicationMetaData:string""",MetaData of the application.,
+firstInventorToFileIndicator,0,"""q"": ""applicationMetaData.firstInventorToFileIndicator:string""",The first inventor to file (First Inventor to File- FITF) provision of the America Invents Act (AIA) transitions the U.S. to a first-inventor-to-file system from a first-to-invent system.,String
+nationalStageIndicator,0,"""q"": ""applicationMetaData.nationalStageIndicator:boolean""",National Stage indicator.,Boolean
+smallEntityStatusIndicator,0,"""q"": ""applicationMetaData.smallEntityStatusIndicator:boolean""",Small entity status indicator.,Boolean
+docketNumber,0,"""q"": ""applicationMetaData.docketNumber:string""",An identifier assigned by a non-USPTO interest to an application patent case. The identifier is assigned by the person filing the application (applicant or the legal representative of the applicant) to identify the application internally on customer side. It's optional for the customer.,String
+firstApplicantName,1,"""q"": ""applicationMetaData.firstApplicantName:string""",Name of the Applicant with Rank One. Listed as first applicant in the patent application.,String
+firstInventorName,1,"""q"": ""applicationMetaData.firstInventorName:string""",Name of the inventor with Rank One. Listed as first inventor in the patent application.,String
+applicationConfirmationNumber,0,"""q"": ""applicationMetaData.applicationConfirmationNumber:number""","A four-digit number that is assigned to each newly filed patent application. The confirmation number, in combination with the application number, is used to verify the accuracy of the application number placed on correspondence /filed with the office to avoid mis identification of an application due to a transposition error (misplaced digits) in the application number. The office recommends that applicants include the application's confirmation number (in addition to the application number) on all correspondence submitted to the office concerning the application.",Number
+applicationStatusDate,0,"""q"": ""applicationMetaData.applicationStatusDate:date""",Application status date.,Date
+applicationStatusDescriptionText,1,"""q"": ""applicationMetaData.applicationStatusDescriptionText:string""",Status of the application; values: new = new application,String
+filingDate,0,"""q"": ""applicationMetaData.filingDate:date""",Date on which a patent application was filed and received in the USPTO.,Date
+effectiveFilingDate,0,"""q"": ""applicationMetaData.effectiveFilingDate:date""",The date according to USPTO criteria that the patent case qualified as having been 'filed'. The effective filing date is the same or later than the Filing Date. The filing date can be changed due to a subsequent action on an application,Date
+grantDate,0,"""q"": ""applicationMetaData.grantDate:date""",The date a patent was granted.,Date
+groupArtUnitNumber,0,"""q"": ""applicationMetaData.groupArtUnitNumber:string""","A working unit responsible for a cluster of related patent art. Generally, staffed by one supervisory patent examiner (SPE) and a number of patent examiners who determine patentability on applications for a patent. Group Art Units are currently identified by a four digit number, i.e., 1642.",String
+applicationTypeCode,0,"""q"": ""applicationMetaData.applicationTypeCode:string""",The specific value that indicates if the received patent application is considered a domestic application at the National Stage or is submitted as a Patent Cooperative Treaty (PCT) application.,String
+applicationTypeLabelName,0,"""q"": ""applicationMetaData.applicationTypeLabelName:string""",The label for the application type.,String
+applicationTypeCategory,1,"""q"": ""applicationMetaData.applicationTypeCategory:string""",The category of the application,String
+inventionTitle,1,"""q"": ""applicationMetaData.inventionTitle:string""",Title of invention/application: The clear and concise technical description of the invention as provided by the patent applicant.,String
+patentNumber,1,"""q"": ""applicationMetaData.patentNumber:string""","The unique number assigned by the USPTO to a granted/issued patent. It is also the document number in the USTPO-published Redbook and the Official Gazette. This number can be for an originally-issued patent or a re-issued patent. It will not be for a Re-exam Certificate, a Correction Certificate, a SIR, or a notice of a request for a Re-exam or a Reissue. This number is equivalent to WIPO ST.9 as INID 11. 5012717.",String
+applicationStatusCode,0,"""q"": ""applicationMetaData.applicationStatusCode:string""",This data element classifies the application by its status relative to the total application process.,String
+businessEntityStatusCategory,0,"""q"": ""applicationMetaData.businessEntityStatusCategory:string""",Status of business The large-or-small-entity payment status of the APPLICATION PATENT CASE at the time of the small entity status event and thereafter until the occurrence of a later small entity status event for the APPLICATION PATENT CASE. entity being established for the purpose of paying a fee such as a filing fee and a maintenance fee,String
+earliestPublicationNumber,0,"""q"": ""applicationMetaData.earliestPublicationNumber:string""",Earliest publication number.,String
+earliestPublicationDate,0,"""q"": ""applicationMetaData.earliestPublicationDate:date""",Earliest publication date.,Date
+pctPublicationNumber,1,"""q"": ""applicationMetaData.pctPublicationNumber:string""",PCT publication number,String
+pctPublicationDate,0,"""q"": ""applicationMetaData.pctPublicationDate:string""",PCT publication date,String
+publicationSequenceNumberBag,0,"""q"": ""applicationMetaData.publicationSequenceNumberBag:string""","Contains a number assigned to the publication of patent applications filed on or after November 29, 2000. It includes the year, followed by a seven digit number, followed by a kind code. Example: 200011234567A1.",
+correspondenceAddressBag,0,"""q"": ""applicationMetaData.correspondenceAddressBag:string""","All address lines associated with applicant or inventor correspondence, depending on which bag it falls in.",
+nameLineOneText,0,"""q"": ""applicationMetaData.nameLineOneText:string""",First line of name associated with correspondence address.,String
+nameLineTwoText,0,"""q"": ""applicationMetaData.nameLineTwoText:string""","Second line of name associated with correspondence address, if applicable.",String
+addressLineOneText,0,"""q"": ""applicationMetaData.addressLineOneText:string""",First line of address associated with correspondence address.,String
+addressLineTwoText,0,"""q"": ""applicationMetaData.addressLineTwoText:string""","Second line of address associated with correspondence address, if applicable.",String
+geographicRegionName,0,"""q"": ""applicationMetaData.geographicRegionName:string""","Geographic Region Name, e.g., state.",String
+geographicRegionCode,0,"""q"": ""applicationMetaData.geographicRegionCode:string""",Geographic region code.,String
+postalCode,0,"""q"": ""applicationMetaData.postalCode:string""",Postal Code.,String
+cityName,0,"""q"": ""applicationMetaData.cityName:string""",City Name.,String
+countryCode,0,"""q"": ""applicationMetaData.countryCode:string""",Country code.,String
+countryName,0,"""q"": ""applicationMetaData.countryName:string""",Country name.,String
+postalAddressCategory,0,"""q"": ""applicationMetaData.postalAddressCategory:string""",Postal address category.,String
+customerNumber,0,"""q"": ""applicationMetaData.customerNumber:number""",A unique number created by the USPTO and is used in lieu of a physical address.,Number
+cpcClassificationBag,0,"""q"": ""applicationMetaData.cpcClassificationBag:string""",All the CPCs associated to application.,
+applicantBag,0,"""q"": ""applicationMetaData.applicantBag:string""",All applicants associated to application.,
+applicantNameText,0,"""q"": ""applicationMetaData.applicantNameText:string""",Applicant name,String
+firstName,1,"""q"": ""applicationMetaData.firstName:string""",First Name.,String
+middleName,0,"""q"": ""applicationMetaData.middleName:string""",Middle name.,String
+lastName,1,"""q"": ""applicationMetaData.lastName:string""",Last Name.,String
+preferredName,0,"""q"": ""applicationMetaData.preferredName:string""",Preferred name.,String
+namePrefix,0,"""q"": ""applicationMetaData.namePrefix:string""",Name prefix.,String
+nameSuffix,0,"""q"": ""applicationMetaData.nameSuffix:string""",Name suffix.,String
+countryCode,0,"""q"": ""applicationMetaData.countryCode:string""",Country code.,String
+correspondenceAddressBag,0,"""q"": ""applicationMetaData.correspondenceAddressBag:string""","All address lines associated with applicant or inventor correspondence, depending on which bag it falls in.",
+nameLineOneText,0,"""q"": ""applicationMetaData.nameLineOneText:string""",First line of name associated with correspondence address.,String
+nameLineTwoText,0,"""q"": ""applicationMetaData.nameLineTwoText:string""","Second line of name associated with correspondence address, if applicable.",String
+geographicRegionName,0,"""q"": ""applicationMetaData.geographicRegionName:string""","Geographic Region Name, e.g., state.",String
+geographicRegionCode,0,"""q"": ""applicationMetaData.geographicRegionCode:string""",Geographic region code.,String
+cityName,0,"""q"": ""applicationMetaData.cityName:string""",City Name.,String
+countryCode,0,"""q"": ""applicationMetaData.countryCode:string""",Country code.,String
+countryName,1,"""q"": ""applicationMetaData.countryName:string""",Country name.,String
+postalAddressCategory,0,"""q"": ""applicationMetaData.postalAddressCategory:string""",Postal address category.,String
+inventorBag,0,"""q"": ""applicationMetaData.inventorBag:string""",All the inventors associated to application.,
+firstName,0,"""q"": ""applicationMetaData.firstName:string""",First Name.,String
+middleName,0,"""q"": ""applicationMetaData.middleName:string""",Middle name.,String
+lastName,0,"""q"": ""applicationMetaData.lastName:string""",Last Name.,String
+preferredName,0,"""q"": ""applicationMetaData.preferredName:string""",Preferred name.,String
+namePrefix,0,"""q"": ""applicationMetaData.namePrefix:string""",Name prefix.,String
+nameSuffix,0,"""q"": ""applicationMetaData.nameSuffix:string""",Name suffix.,String
+countryCode,0,"""q"": ""applicationMetaData.countryCode:string""",Country code.,String
+inventorNameText,0,"""q"": ""applicationMetaData.inventorNameText:string""",Inventor Name.,String
+correspondenceAddressBag,0,"""q"": ""applicationMetaData.correspondenceAddressBag:string""","All address lines associated with applicant or inventor correspondence, depending on which bag it falls in.",
+nameLineOneText,0,"""q"": ""applicationMetaData.nameLineOneText:string""",First line of name associated with correspondence address.,String
+nameLineTwoText,0,"""q"": ""applicationMetaData.nameLineTwoText:string""","Second line of name associated with correspondence address, if applicable.",String
+geographicRegionName,0,"""q"": ""applicationMetaData.geographicRegionName:string""","Geographic Region Name, e.g., state.",String
+geographicRegionCode,0,"""q"": ""applicationMetaData.geographicRegionCode:string""",Geographic region code.,String
+cityName,0,"""q"": ""applicationMetaData.cityName:string""",City Name.,String
+countryCode,0,"""q"": ""applicationMetaData.countryCode:string""",Country code.,String
+countryName,0,"""q"": ""applicationMetaData.countryName:string""",Country name.,String
+postalAddressCategory,0,"""q"": ""applicationMetaData.postalAddressCategory:string""",Postal address category.,String
+assignmentBag,0,"""q"": ""applicationMetaData.assignmentBag:string""",The collection of assignment data,
+reelNumber,0,"""q"": ""applicationMetaData.reelNumber:number""",1-6 digit number identifies the reel number to be used to locate the assignment on microfilm.,Number
+frameNumber,0,"""q"": ""applicationMetaData.frameNumber:number""",1-4 digit number that identifies the frame number to be used to locate the first image (page) of the assignment on microfilm.,Number
+reelAndFrameNumber,0,"""q"": ""applicationMetaData.reelAndFrameNumber:string""",1-6 digit number identifies the reel number to be used to locate the assignment on microfilm. / 1-4 digit number that identifies the frame number to be used to locate the first image (page) of the assignment on microfilm.,String
+assignmentDocumentLocationURI,0,"""q"": ""applicationMetaData.assignmentDocumentLocationURI:string""",The Document Location URI,String
+assignmentReceivedDate,0,"""q"": ""applicationMetaData.assignmentReceivedDate:date""",The date an assignment was received. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+assignmentRecordedDate,0,"""q"": ""applicationMetaData.assignmentRecordedDate:date""",Identifies when the assignment was recorded in the USPTO. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+assignmentMailedDate,0,"""q"": ""applicationMetaData.assignmentMailedDate:date""",The date an assignment request was mailed to the office or received by the office. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+conveyanceText,0,"""q"": ""applicationMetaData.conveyanceText:string""",Contains textual description of the interest conveyed or transaction recorded.,String
+assignorBag,0,"""q"": ""applicationMetaData.assignorBag:string""",Collection of assignors/details related to the assignor(s).,
+assignorName,0,"""q"": ""applicationMetaData.assignorName:string""",A party that transfers its interest and right to the patent to the transferee (assignee) or the party receiving the patent.,String
+executionDate,0,"""q"": ""applicationMetaData.executionDate:date""",Identifies the date from the supporting legal documentation that the assignment was executed. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+assigneeBag,0,"""q"": ""applicationMetaData.assigneeBag:string""",Collection of assignees/details related to the assignee(s).,
+assigneeNameText,0,"""q"": ""applicationMetaData.assigneeNameText:string""","A person or entity that has the property rights to the patent, as a result of being the recipient of a transfer of a patent application or patent grant. Refers to ST.9 INID Code 73.",String
+assigneeAddress,0,"""q"": ""applicationMetaData.assigneeAddress:string""",Assignee address data.,
+addressLineOneText,0,"""q"": ""applicationMetaData.addressLineOneText:string""",First line of address.,String
+addressLineTwoText,0,"""q"": ""applicationMetaData.addressLineTwoText:string""",Second line of address.,String
+cityName,0,"""q"": ""applicationMetaData.cityName:string""",City,String
+geographicRegionName,0,"""q"": ""applicationMetaData.geographicRegionName:string""",Geographic region name.,String
+geographicRegionCode,0,"""q"": ""applicationMetaData.geographicRegionCode:string""",Geographic region code.,String
+countryName,0,"""q"": ""applicationMetaData.countryName:string""",Country name.,String
+postalCode,0,"""q"": ""applicationMetaData.postalCode:string""",Postal code.,String
+correspondenceAddressBag,0,"""q"": ""applicationMetaData.correspondenceAddressBag:string""",Correspondence data collection,
+correspondentNameText,0,"""q"": ""applicationMetaData.correspondentNameText:string""",The name of the correspondent,String
+addressLineOneText,0,"""q"": ""applicationMetaData.addressLineOneText:string""",Address line one.,String
+addressLineTwoText,0,"""q"": ""applicationMetaData.addressLineTwoText:string""",Address line two.,String
+addressLineThreeText,0,"""q"": ""applicationMetaData.addressLineThreeText:string""","Address line three, if existing",String
+addressLineFourText,0,"""q"": ""applicationMetaData.addressLineFourText:string""","Address line four, if existing",String
+recordAttorney,0,"""q"": ""applicationMetaData.recordAttorney:string""",Details of the attorney or agent associated with an application/patent.,
+customerNumberCorrespondenceData,0,"""q"": ""applicationMetaData.customerNumberCorrespondenceData:string""",Correspondence Address of the application inherited from the Customer.,
+patronIdentifier,0,"""q"": ""applicationMetaData.patronIdentifier:string""",The unique identifier of the patron,String
+organizationStandardName,0,"""q"": ""applicationMetaData.organizationStandardName:string""",Organization standard name,String
+powerOfAttorneyAddressBag,0,"""q"": ""applicationMetaData.powerOfAttorneyAddressBag:string""",Power of attorney address data collection.,
+nameLineOneText,0,"""q"": ""applicationMetaData.nameLineOneText:string""",First line of name associated with attorney/agent correspondence address.,String
+addressLineOneText,0,"""q"": ""applicationMetaData.addressLineOneText:string""",First line of the address,String
+addressLineTwoText,0,"""q"": ""applicationMetaData.addressLineTwoText:string""",Second line of the address,String
+geographicRegionName,0,"""q"": ""applicationMetaData.geographicRegionName:string""",Geographic region name,String
+geographicRegionCode,0,"""q"": ""applicationMetaData.geographicRegionCode:string""",Geographic region code,String
+postalCode,0,"""q"": ""applicationMetaData.postalCode:string""",Postal code,String
+cityName,0,"""q"": ""applicationMetaData.cityName:string""",City name,String
+countryCode,0,"""q"": ""applicationMetaData.countryCode:string""",Country code,String
+countryName,0,"""q"": ""applicationMetaData.countryName:string""",Country name,String
+telecommunicationAddressBag,0,"""q"": ""applicationMetaData.telecommunicationAddressBag:string""","List of telecommunication addresses, such as the phone number(s) associated with the aforementioned attorney or agent.",
+telecommunicationNumber,0,"""q"": ""applicationMetaData.telecommunicationNumber:string""","Telecommunication number, such as the phone number associated with the aforementioned attorney or agent.",String
+extensionNumber,0,"""q"": ""applicationMetaData.extensionNumber:string""",Telephone extension number.,String
+telecomTypeCode,0,"""q"": ""applicationMetaData.telecomTypeCode:string""","Usage type category, such as the type of phone number associated with the aforementioned attorney or agent.",String
+attorneyBag,0,"""q"": ""applicationMetaData.attorneyBag:string""",Data on file for all attorneys or agents associated with the application.,
+firstName,0,"""q"": ""applicationMetaData.firstName:string""",First Name.,String
+middleName,0,"""q"": ""applicationMetaData.middleName:string""",Middle Name.,String
+lastName,0,"""q"": ""applicationMetaData.lastName:string""",Last Name.,String
+namePrefix,0,"""q"": ""applicationMetaData.namePrefix:string""",Name prefix.,String
+nameSuffix,0,"""q"": ""applicationMetaData.nameSuffix:string""",Name suffix.,String
+registrationNumber,0,"""q"": ""applicationMetaData.registrationNumber:number""",Registration number.,Number
+activeIndicator,0,"""q"": ""applicationMetaData.activeIndicator:boolean""",Status of whether attorney is active or inactive.,Boolean
+registeredPractitionerCategory,0,"""q"": ""applicationMetaData.registeredPractitionerCategory:string""",Practitioner category,String
+telecommunicationAddressBag,0,"""q"": ""applicationMetaData.telecommunicationAddressBag:string""","List of telecommunication addresses, such as the phone number(s) associated with the aforementioned attorney or agent.",
+telecommunicationNumber,0,"""q"": ""applicationMetaData.telecommunicationNumber:string""","Telecommunication number, such as the phone number associated with the aforementioned attorney or agent.",String
+extensionNumber,0,"""q"": ""applicationMetaData.extensionNumber:number""",Telephone extension number.,Number
+telecomTypeCode,0,"""q"": ""applicationMetaData.telecomTypeCode:string""","Usage type category, such as the type of phone number associated with the aforementioned attorney or agent.",String
+foreignPriorityBag,0,"""q"": ""applicationMetaData.foreignPriorityBag:string""",Contains information about relevant foreign priority.,
+ipOfficeName,0,"""q"": ""applicationMetaData.ipOfficeName:string""","The complete, non abbreviated name of the ipOfficeName designated for a country according to the International Organization for Standardization (ISO) under International Standard 3166-1.",String
+filingDate,0,"""q"": ""applicationMetaData.filingDate:date""",The date on which a priority claim was filed.,Date
+applicationNumberText,0,"""q"": ""applicationMetaData.applicationNumberText:string""",The unique number assigned by the USPTO to a patent application when it is filed.,String
+parentContinuityBag,0,"""q"": ""applicationMetaData.parentContinuityBag:string""",All continuity details related to the parent application.,
+firstInventorToFileIndicator,0,"""q"": ""applicationMetaData.firstInventorToFileIndicator:boolean""","America Invents Act (AIA) indicator, which indicates first inventor to file.",Boolean
+parentApplicationStatusCode,0,"""q"": ""applicationMetaData.parentApplicationStatusCode:number""",This data element classifies the application by its status relative to the total application process.,Number
+parentPatentNumber,1,"""q"": ""applicationMetaData.parentPatentNumber:string""","The number that uniquely identifies an issued patent. It is also the document number in the USTPO-published Redbook and the Official Gazette. This number can be for an originally-issued patent or a re-issued patent. It will not be for a Re-exam Certificate, a Correction Certificate, a SIR, or a notice of a request for a Re-exam or a Reissue. This number is equivalent to WIPO ST.9 as INID 11. 5012717.",String
+parentApplicationStatusDescriptionText,0,"""q"": ""applicationMetaData.parentApplicationStatusDescriptionText:string""","Status of the parent or child application, depending on which bag it falls under; values: new = new application, patented case, patent expired...",String
+parentApplicationfilingDate,0,"""q"": ""applicationMetaData.parentApplicationfilingDate:date""",Date on which a patent application was filed and received in the USPTO.,Date
+parentApplicationNumberText,0,"""q"": ""applicationMetaData.parentApplicationNumberText:string""","Application number of the parent application, which is the unique value assigned by the USPTO to a patent application upon receipt.",String
+childApplicationNumberText,0,"""q"": ""applicationMetaData.childApplicationNumberText:string""","Application number of the child application, which is the unique value assigned by the USPTO to a patent application upon receipt.",String
+claimParentageTypeCode,0,"""q"": ""applicationMetaData.claimParentageTypeCode:string""",Claim parentage type code.,String
+claimParentageTypeCodeDescriptionText,0,"""q"": ""applicationMetaData.claimParentageTypeCodeDescriptionText:string""",Claim Parentage Type Code Description,String
+childContinuityBag,0,"""q"": ""applicationMetaData.childContinuityBag:string""",All continuity details related to the child application,
+childApplicationStatusCode,0,"""q"": ""applicationMetaData.childApplicationStatusCode:string""",Application status code.,String
+parentApplicationNumberText,0,"""q"": ""applicationMetaData.parentApplicationNumberText:string""",Parent application number for this child application.,String
+childApplicationNumberText,0,"""q"": ""applicationMetaData.childApplicationNumberText:string""","Application number of the child application, which is the unique value assigned by the USPTO to a patent application upon receipt.",String
+childApplicationStatusDescriptionText,0,"""q"": ""applicationMetaData.childApplicationStatusDescriptionText:string""","Status of the parent or child application, depending on which bag it falls under; values: new = new application, patented case, patent expired...",String
+childApplicationfilingDate,0,"""q"": ""applicationMetaData.childApplicationfilingDate:date""",Date on which a patent application was filed and received in the USPTO.,Date
+firstInventorToFileIndicator,0,"""q"": ""applicationMetaData.firstInventorToFileIndicator:boolean""","America Invents Act (AIA) indicator, which indicates first inventor to file.",Boolean
+childPatentNumber,0,"""q"": ""applicationMetaData.childPatentNumber:string""","The number that uniquely identifies an issued patent. It is also the document number in the USTPO-published Redbook and the Official Gazette. This number can be for an originally-issued patent or a re-issued patent. It will not be for a Re-exam Certificate, a Correction Certificate, a SIR, or a notice of a request for a Re-exam or a Reissue. This number is equivalent to WIPO ST.9 as INID 11. 5012717.",String
+claimParentageTypeCode,0,"""q"": ""applicationMetaData.claimParentageTypeCode:string""",Claim parentage type code.,String
+claimParentageTypeCodeDescriptionText,0,"""q"": ""applicationMetaData.claimParentageTypeCodeDescriptionText:string""",Description of claim parentage type,String
+patentTermAdjustmentData,0,"""q"": ""applicationMetaData.patentTermAdjustmentData:string""",Patent term adjustment data.,
+aDelayQuantity,0,"""q"": ""applicationMetaData.aDelayQuantity:number""","This entry reflects adjustments to the term of the patent based upon USPTO delays pursuant to 35 U.S.C. § 154(b)(1)(A)(i)-(iv) and the implementing regulations 37 CFR 1.702(a) & 37 CFR 1.703(a). An ""A"" delay may occur prior to the notice of allowance and be included in the PTA determination accompanying the notice of allowance or may occur after the entry or mailing of the notice of allowance and be included in the PTA determination in the issue notification letter.",Number
+adjustmentTotalQuantity,0,"""q"": ""applicationMetaData.adjustmentTotalQuantity:number""",This entry reflects the summation of the following entries: NONOVERLAPPING USPTO DELAYS (+/or – USPTO MANUAL ADJUSTMENTS) – APPLICANT DELAYS. It is noted that the TOTAL PTA CALCULATION determined at the time of the notice of allowance will not reflect PALM entries that are entered after the entry or mailing of the notice of allowance.,Number
+applicantDayDelayQuantity,0,"""q"": ""applicationMetaData.applicantDayDelayQuantity:number""",This entry reflects adjustments of the patent term due to the Applicant's failure to engage in reasonable efforts to conclude prosecution of the application for the cumulative period in excess of three months. See 35 U.S.C. § 154(b)(2)(C)(ii) and implementing regulation 37 CFR 1.704(b). The entry also reflects additional Applicant's failure to engage in reasonable efforts to conclude prosecution of the application. See 35 U.S.C. § 154(b)(2)(C)(iii) and implementing regulations 37 CFR 1.704(c)(1)-(11).,Number
+bDelayQuantity,0,"""q"": ""applicationMetaData.bDelayQuantity:number""","This entry reflects adjustments to the term of the patent based upon the patent failing to issue within three years of the actual filing date of the application in the United States. See 35 U.S.C. § 154(b) and implementing regulations 37 CFR 1.702(b) & 1.703(b). ""B"" delay is always calculated at the time that the issue notification letter is generated and an issue date has been established.",Number
+cDelayQuantity,0,"""q"": ""applicationMetaData.cDelayQuantity:number""","This entry reflects adjustments to the term of the patent based upon USPTO delays pursuant to 35 U.S.C. § 154(C)(i)-(iii) and implementing regulations 37 CFR 1.702 (c)-(e) & 1.703(c)-(e). These delays include delays caused by interference proceedings, secrecy orders, and successful appellate reviews.",Number
+filingDate,0,"""q"": ""applicationMetaData.filingDate:date""","The date assigned by the USPTO that identifies when a patent application meets certain criteria to qualify as having been ""filed.""",Date
+grantDate,0,"""q"": ""applicationMetaData.grantDate:date""",Date on which the patent application was granted/issued.,Date
+nonOverlappingDayQuantity,0,"""q"": ""applicationMetaData.nonOverlappingDayQuantity:number""","This entry reflects the overall summation of the USPTO delays minus any overlapping days. Particularly, it includes the following: (""A"" delays + ""B"" delays + ""C"" delays) - (the number of calendar days overlapping between ""A"" delays and ""B"" delays + the number of calendar days overlapping between ""A"" delays and ""C"" delays). This entry does not reflect the number of days of applicant delays pursuant to 35 U.S.C. § 154(b)(2)(C) and 37 CFR 1.704(b) and 37 CFR 1.704(c)(1)-(11).",Number
+overlappingDayQuantity,0,"""q"": ""applicationMetaData.overlappingDayQuantity:number""",Patent term adjustment overlapping days quantity number that reflects the calculation of overlapping delays consistent with the federal circuit's interpretation.,Number
+ipOfficeDayDelayQuantity,0,"""q"": ""applicationMetaData.ipOfficeDayDelayQuantity:number""","This entry reflects the UPSTO personnel adjusting the calculation to increase or decrease the patent term adjustment based upon either an application for patent term adjustment pursuant to 37 CFR 1.705(b) or a request for reconsideration of the patent term adjustment under 37 CFR 1.705(d). In addition, the USPTO may reduce the PTA determination in response to a letter of good faith and candor regarding PTA advising the USPTO that the USPTO may have granted more PTA than applicant/patentee is entitled.",Number
+patentTermAdjustmentHistoryDataBag,0,"""q"": ""applicationMetaData.patentTermAdjustmentHistoryDataBag:string""",The recordation of patent case actions that are involved in the patent term adjustment calculation.,
+applicantDayDelayQuantity,0,"""q"": ""applicationMetaData.applicantDayDelayQuantity:number""",This entry reflects adjustments of the patent term due to the Applicant's failure to engage in reasonable efforts to conclude prosecution of the application for the cumulative period in excess of three months. See 35 U.S.C. § 154(b)(2)(C)(ii) and implementing regulation 37 CFR 1.704(b). The entry also reflects additional Applicant's failure to engage in reasonable efforts to conclude prosecution of the application. See 35 U.S.C. § 154(b)(2)(C)(iii) and implementing regulations 37 CFR 1.704(c)(1)-(11).,Number
+eventDate,0,"""q"": ""applicationMetaData.eventDate:date""",The date that the symbol was assigned to the patent document.,Date
+eventDescriptionText,0,"""q"": ""applicationMetaData.eventDescriptionText:string""",event description.,String
+eventSequenceNumber,0,"""q"": ""applicationMetaData.eventSequenceNumber:number""",Case action sequence number.,Number
+ipOfficeDayDelayQuantity,0,"""q"": ""applicationMetaData.ipOfficeDayDelayQuantity:number""",Number of days the UPSTO personnel adjusting the calculation to increase or decrease the patent term adjustment based upon a request for reconsideration of the patent term adjustment.,Number
+originatingEventSequenceNumber,0,"""q"": ""applicationMetaData.originatingEventSequenceNumber:number""",Start sequence number.,Number
+eventDataBag,0,"""q"": ""applicationMetaData.eventDataBag:string""",Details of the contents of all transactions on an application/patent.,
+eventCode,0,"""q"": ""applicationMetaData.eventCode:string""",The unique reference value (number and letters) for an application/patent transaction.,String
+eventDescriptionText,0,"""q"": ""applicationMetaData.eventDescriptionText:string""",Description of the Transaction's code.,String
+eventDate,0,"""q"": ""applicationMetaData.eventDate:date""",The date the patent case action was recorded.,Date
+pgpubDocumentMetaData,0,"""q"": ""applicationMetaData.pgpubDocumentMetaData:string""",Details of PgPub document meta data.,
+zipFileName,0,"""q"": ""applicationMetaData.zipFileName:string""",Zip file name,String
+productIdentifier,0,"""q"": ""applicationMetaData.productIdentifier:string""",Product identifier.,String
+fileLocationURI,0,"""q"": ""applicationMetaData.fileLocationURI:string""",File location URI.,String
+fileCreateDateTime,0,"""q"": ""applicationMetaData.fileCreateDateTime:date""",The date file was created.,Date
+xmlFileName,0,"""q"": ""applicationMetaData.xmlFileName:string""",XML file name.,String
+grantDocumentMetaData,0,"""q"": ""applicationMetaData.grantDocumentMetaData:string""",Grant document meta data.,
+zipFileName,0,"""q"": ""applicationMetaData.zipFileName:string""",Zip file name,String
+productIdentifier,0,"""q"": ""applicationMetaData.productIdentifier:string""",Product identifier.,String
+fileLocationURI,0,"""q"": ""applicationMetaData.fileLocationURI:string""",File location URI.,String
+fileCreateDateTime,0,"""q"": ""applicationMetaData.fileCreateDateTime:date""",The date file was created.,Date
+xmlFileName,0,"""q"": ""applicationMetaData.xmlFileName:string""",XML file name.,String
+lastIngestionDateTime,0,"""q"": ""applicationMetaData.lastIngestionDateTime:date""",Date time when application was last modified.,Date

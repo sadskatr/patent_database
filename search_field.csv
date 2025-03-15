@@ -1,0 +1,198 @@
+﻿Data Property,Description,Type
+PatentFileWrapperDataBag,Patent File Wrapper data.,N/A
+  applicationNumberText,The unique number assigned by the USPTO to a patent application when it is filed.,String
+applicationMetaData,MetaData of the application.,N/A
+  firstInventorToFileIndicator,The first inventor to file (First Inventor to File- FITF) provision of the America Invents Act (AIA) transitions the U.S. to a first-inventor-to-file system from a first-to-invent system.,String
+  nationalStageIndicator,National Stage indicator.,Boolean
+  smallEntityStatusIndicator,Small entity status indicator.,Boolean
+  docketNumber,An identifier assigned by a non-USPTO interest to an application patent case. The identifier is assigned by the person filing the application (applicant or the legal representative of the applicant) to identify the application internally on customer side. It's optional for the customer.,String
+  firstApplicantName,Name of the Applicant with Rank One. Listed as first applicant in the patent application.,String
+  firstInventorName,Name of the inventor with Rank One. Listed as first inventor in the patent application.,String
+  applicationConfirmationNumber,"A four-digit number that is assigned to each newly filed patent application. The confirmation number, in combination with the application number, is used to verify the accuracy of the application number placed on correspondence /filed with the office to avoid mis identification of an application due to a transposition error (misplaced digits) in the application number. The office recommends that applicants include the application's confirmation number (in addition to the application number) on all correspondence submitted to the office concerning the application.",Number
+  applicationStatusDate,Application status date.,Date
+  applicationStatusDescriptionText,Status of the application; values: new = new application,String
+  filingDate,Date on which a patent application was filed and received in the USPTO.,Date
+  effectiveFilingDate,The date according to USPTO criteria that the patent case qualified as having been 'filed'. The effective filing date is the same or later than the Filing Date. The filing date can be changed due to a subsequent action on an application,Date
+  grantDate,The date a patent was granted.,Date
+  groupArtUnitNumber,"A working unit responsible for a cluster of related patent art. Generally, staffed by one supervisory patent examiner (SPE) and a number of patent examiners who determine patentability on applications for a patent. Group Art Units are currently identified by a four digit number, i.e., 1642.",String
+  applicationTypeCode,The specific value that indicates if the received patent application is considered a domestic application at the National Stage or is submitted as a Patent Cooperative Treaty (PCT) application.,String
+  applicationTypeLabelName,The label for the application type.,String
+  applicationTypeCategory,The category of the application,String
+  inventionTitle,Title of invention/application: The clear and concise technical description of the invention as provided by the patent applicant.,String
+  patentNumber,"The unique number assigned by the USPTO to a granted/issued patent. It is also the document number in the USTPO-published Redbook and the Official Gazette. This number can be for an originally-issued patent or a re-issued patent. It will not be for a Re-exam Certificate, a Correction Certificate, a SIR, or a notice of a request for a Re-exam or a Reissue. This number is equivalent to WIPO ST.9 as INID 11. 5012717.",String
+  applicationStatusCode,This data element classifies the application by its status relative to the total application process.,String
+  businessEntityStatusCategory,Status of business The large-or-small-entity payment status of the APPLICATION PATENT CASE at the time of the small entity status event and thereafter until the occurrence of a later small entity status event for the APPLICATION PATENT CASE. entity being established for the purpose of paying a fee such as a filing fee and a maintenance fee,String
+  earliestPublicationNumber,Earliest publication number.,String
+  earliestPublicationDate,Earliest publication date.,Date
+  pctPublicationNumber,PCT publication number,String
+  pctPublicationDate,PCT publication date,String
+publicationSequenceNumberBag,"Contains a number assigned to the publication of patent applications filed on or after November 29, 2000. It includes the year, followed by a seven digit number, followed by a kind code. Example: 200011234567A1.",N/A
+correspondenceAddressBag,"All address lines associated with applicant or inventor correspondence, depending on which bag it falls in.",N/A
+  nameLineOneText,First line of name associated with correspondence address.,String
+  nameLineTwoText,"Second line of name associated with correspondence address, if applicable.",String
+  addressLineOneText,First line of address associated with correspondence address.,String
+  addressLineTwoText,"Second line of address associated with correspondence address, if applicable.",String
+  geographicRegionName,"Geographic Region Name, e.g., state.",String
+  geographicRegionCode,Geographic region code.,String
+  postalCode,Postal Code.,String
+  cityName,City Name.,String
+  countryCode,Country code.,String
+  countryName,Country name.,String
+  postalAddressCategory,Postal address category.,String
+customerNumber,A unique number created by the USPTO and is used in lieu of a physical address.,Number
+cpcClassificationBag,All the CPCs associated to application.,N/A
+applicantBag,All applicants associated to application.,N/A
+  applicantNameText,Applicant name,String
+  firstName,First Name.,String
+  middleName,Middle name.,String
+  lastName,Last Name.,String
+  preferredName,Preferred name.,String
+  namePrefix,Name prefix.,String
+  nameSuffix,Name suffix.,String
+  countryCode,Country code.,String
+correspondenceAddressBag,"All address lines associated with applicant or inventor correspondence, depending on which bag it falls in.",N/A
+  nameLineOneText,First line of name associated with correspondence address.,String
+  nameLineTwoText,"Second line of name associated with correspondence address, if applicable.",String
+  geographicRegionName,"Geographic Region Name, e.g., state.",String
+  geographicRegionCode,Geographic region code.,String
+  cityName,City Name.,String
+  countryCode,Country code.,String
+  countryName,Country name.,String
+  postalAddressCategory,Postal address category.,String
+inventorBag,All the inventors associated to application.,N/A
+  firstName,First Name.,String
+  middleName,Middle name.,String
+  lastName,Last Name.,String
+  preferredName,Preferred name.,String
+  namePrefix,Name prefix.,String
+  nameSuffix,Name suffix.,String
+  countryCode,Country code.,String
+  inventorNameText,Inventor Name.,String
+correspondenceAddressBag,"All address lines associated with applicant or inventor correspondence, depending on which bag it falls in.",N/A
+  nameLineOneText,First line of name associated with correspondence address.,String
+  nameLineTwoText,"Second line of name associated with correspondence address, if applicable.",String
+  geographicRegionName,"Geographic Region Name, e.g., state.",String
+  geographicRegionCode,Geographic region code.,String
+  cityName,City Name.,String
+  countryCode,Country code.,String
+  countryName,Country name.,String
+  postalAddressCategory,Postal address category.,String
+assignmentBag,The collection of assignment data,N/A
+  reelNumber,1-6 digit number identifies the reel number to be used to locate the assignment on microfilm.,Number
+  frameNumber,1-4 digit number that identifies the frame number to be used to locate the first image (page) of the assignment on microfilm.,Number
+  reelAndFrameNumber,1-6 digit number identifies the reel number to be used to locate the assignment on microfilm. / 1-4 digit number that identifies the frame number to be used to locate the first image (page) of the assignment on microfilm.,String
+  assignmentDocumentLocationURI,The Document Location URI,String
+  assignmentReceivedDate,The date an assignment was received. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+  assignmentRecordedDate,Identifies when the assignment was recorded in the USPTO. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+  assignmentMailedDate,The date an assignment request was mailed to the office or received by the office. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+  conveyanceText,Contains textual description of the interest conveyed or transaction recorded.,String
+assignorBag,Collection of assignors/details related to the assignor(s).,N/A
+  assignorName,A party that transfers its interest and right to the patent to the transferee (assignee) or the party receiving the patent.,String
+  executionDate,Identifies the date from the supporting legal documentation that the assignment was executed. Contains a date element with an 8-digit date in YYYY-MM-DD date format.,Date
+assigneeBag,Collection of assignees/details related to the assignee(s).,N/A
+  assigneeNameText,"A person or entity that has the property rights to the patent, as a result of being the recipient of a transfer of a patent application or patent grant. Refers to ST.9 INID Code 73.",String
+assigneeAddress,Assignee address data.,N/A
+  addressLineOneText,First line of address.,String
+  addressLineTwoText,Second line of address.,String
+  cityName,City,String
+  geographicRegionName,Geographic region name.,String
+  geographicRegionCode,Geographic region code.,String
+  countryName,Country name.,String
+  postalCode,Postal code.,String
+correspondenceAddressBag,Correspondence data collection,N/A
+  correspondentNameText,The name of the correspondent,String
+  addressLineOneText,Address line one.,String
+  addressLineTwoText,Address line two.,String
+  addressLineThreeText,"Address line three, if existing",String
+  addressLineFourText,"Address line four, if existing",String
+recordAttorney,Details of the attorney or agent associated with an application/patent.,N/A
+customerNumberCorrespondenceData,Correspondence Address of the application inherited from the Customer.,N/A
+  patronIdentifier,The unique identifier of the patron,String
+  organizationStandardName,Organization standard name,String
+powerOfAttorneyAddressBag,Power of attorney address data collection.,N/A
+  nameLineOneText,First line of name associated with attorney/agent correspondence address.,String
+  addressLineOneText,First line of the address,String
+  addressLineTwoText,Second line of the address,String
+  geographicRegionName,Geographic region name,String
+  geographicRegionCode,Geographic region code,String
+  postalCode,Postal code,String
+  cityName,City name,String
+  countryCode,Country code,String
+  countryName,Country name,String
+telecommunicationAddressBag,"List of telecommunication addresses, such as the phone number(s) associated with the aforementioned attorney or agent.",N/A
+  telecommunicationNumber,"Telecommunication number, such as the phone number associated with the aforementioned attorney or agent.",String
+  extensionNumber,Telephone extension number.,String
+  telecomTypeCode,"Usage type category, such as the type of phone number associated with the aforementioned attorney or agent.",String
+attorneyBag,Data on file for all attorneys or agents associated with the application.,N/A
+  firstName,First Name.,String
+  middleName,Middle Name.,String
+  lastName,Last Name.,String
+  namePrefix,Name prefix.,String
+  nameSuffix,Name suffix.,String
+  registrationNumber,Registration number.,Number
+  activeIndicator,Status of whether attorney is active or inactive.,Boolean
+  registeredPractitionerCategory,Practitioner category,String
+telecommunicationAddressBag,"List of telecommunication addresses, such as the phone number(s) associated with the aforementioned attorney or agent.",N/A
+  telecommunicationNumber,"Telecommunication number, such as the phone number associated with the aforementioned attorney or agent.",String
+  extensionNumber,Telephone extension number.,Number
+  telecomTypeCode,"Usage type category, such as the type of phone number associated with the aforementioned attorney or agent.",String
+foreignPriorityBag,Contains information about relevant foreign priority.,N/A
+  ipOfficeName,"The complete, non abbreviated name of the ipOfficeName designated for a country according to the International Organization for Standardization (ISO) under International Standard 3166-1.",String
+  filingDate,The date on which a priority claim was filed.,Date
+  applicationNumberText,The unique number assigned by the USPTO to a patent application when it is filed.,String
+parentContinuityBag,All continuity details related to the parent application.,N/A
+  firstInventorToFileIndicator,"America Invents Act (AIA) indicator, which indicates first inventor to file.",Boolean
+  parentApplicationStatusCode,This data element classifies the application by its status relative to the total application process.,Number
+  parentPatentNumber,"The number that uniquely identifies an issued patent. It is also the document number in the USTPO-published Redbook and the Official Gazette. This number can be for an originally-issued patent or a re-issued patent. It will not be for a Re-exam Certificate, a Correction Certificate, a SIR, or a notice of a request for a Re-exam or a Reissue. This number is equivalent to WIPO ST.9 as INID 11. 5012717.",String
+  parentApplicationStatusDescriptionText,"Status of the parent or child application, depending on which bag it falls under; values: new = new application, patented case, patent expired...",String
+  parentApplicationfilingDate,Date on which a patent application was filed and received in the USPTO.,Date
+  parentApplicationNumberText,"Application number of the parent application, which is the unique value assigned by the USPTO to a patent application upon receipt.",String
+  childApplicationNumberText,"Application number of the child application, which is the unique value assigned by the USPTO to a patent application upon receipt.",String
+  claimParentageTypeCode,Claim parentage type code.,String
+  claimParentageTypeCodeDescriptionText,Claim Parentage Type Code Description,String
+childContinuityBag,All continuity details related to the child application,N/A
+  childApplicationStatusCode,Application status code.,String
+  parentApplicationNumberText,Parent application number for this child application.,String
+  childApplicationNumberText,"Application number of the child application, which is the unique value assigned by the USPTO to a patent application upon receipt.",String
+  childApplicationStatusDescriptionText,"Status of the parent or child application, depending on which bag it falls under; values: new = new application, patented case, patent expired...",String
+  childApplicationfilingDate,Date on which a patent application was filed and received in the USPTO.,Date
+  firstInventorToFileIndicator,"America Invents Act (AIA) indicator, which indicates first inventor to file.",Boolean
+  childPatentNumber,"The number that uniquely identifies an issued patent. It is also the document number in the USTPO-published Redbook and the Official Gazette. This number can be for an originally-issued patent or a re-issued patent. It will not be for a Re-exam Certificate, a Correction Certificate, a SIR, or a notice of a request for a Re-exam or a Reissue. This number is equivalent to WIPO ST.9 as INID 11. 5012717.",String
+  claimParentageTypeCode,Claim parentage type code.,String
+  claimParentageTypeCodeDescriptionText,Description of claim parentage type,String
+patentTermAdjustmentData,Patent term adjustment data.,N/A
+    aDelayQuantity,"This entry reflects adjustments to the term of the patent based upon USPTO delays pursuant to 35 U.S.C. § 154(b)(1)(A)(i)-(iv) and the implementing regulations 37 CFR 1.702(a) & 37 CFR 1.703(a). An ""A"" delay may occur prior to the notice of allowance and be included in the PTA determination accompanying the notice of allowance or may occur after the entry or mailing of the notice of allowance and be included in the PTA determination in the issue notification letter.",Number
+    adjustmentTotalQuantity,This entry reflects the summation of the following entries: NONOVERLAPPING USPTO DELAYS (+/or – USPTO MANUAL ADJUSTMENTS) – APPLICANT DELAYS. It is noted that the TOTAL PTA CALCULATION determined at the time of the notice of allowance will not reflect PALM entries that are entered after the entry or mailing of the notice of allowance.,Number
+    applicantDayDelayQuantity,This entry reflects adjustments of the patent term due to the Applicant's failure to engage in reasonable efforts to conclude prosecution of the application for the cumulative period in excess of three months. See 35 U.S.C. § 154(b)(2)(C)(ii) and implementing regulation 37 CFR 1.704(b). The entry also reflects additional Applicant's failure to engage in reasonable efforts to conclude prosecution of the application. See 35 U.S.C. § 154(b)(2)(C)(iii) and implementing regulations 37 CFR 1.704(c)(1)-(11).,Number
+    bDelayQuantity,"This entry reflects adjustments to the term of the patent based upon the patent failing to issue within three years of the actual filing date of the application in the United States. See 35 U.S.C. § 154(b) and implementing regulations 37 CFR 1.702(b) & 1.703(b). ""B"" delay is always calculated at the time that the issue notification letter is generated and an issue date has been established.",Number
+    cDelayQuantity,"This entry reflects adjustments to the term of the patent based upon USPTO delays pursuant to 35 U.S.C. § 154(C)(i)-(iii) and implementing regulations 37 CFR 1.702 (c)-(e) & 1.703(c)-(e). These delays include delays caused by interference proceedings, secrecy orders, and successful appellate reviews.",Number
+    filingDate,"The date assigned by the USPTO that identifies when a patent application meets certain criteria to qualify as having been ""filed.""",Date
+    grantDate,Date on which the patent application was granted/issued.,Date
+    nonOverlappingDayQuantity,"This entry reflects the overall summation of the USPTO delays minus any overlapping days. Particularly, it includes the following: (""A"" delays + ""B"" delays + ""C"" delays) - (the number of calendar days overlapping between ""A"" delays and ""B"" delays + the number of calendar days overlapping between ""A"" delays and ""C"" delays). This entry does not reflect the number of days of applicant delays pursuant to 35 U.S.C. § 154(b)(2)(C) and 37 CFR 1.704(b) and 37 CFR 1.704(c)(1)-(11).",Number
+    overlappingDayQuantity,Patent term adjustment overlapping days quantity number that reflects the calculation of overlapping delays consistent with the federal circuit's interpretation.,Number
+    ipOfficeDayDelayQuantity,"This entry reflects the UPSTO personnel adjusting the calculation to increase or decrease the patent term adjustment based upon either an application for patent term adjustment pursuant to 37 CFR 1.705(b) or a request for reconsideration of the patent term adjustment under 37 CFR 1.705(d). In addition, the USPTO may reduce the PTA determination in response to a letter of good faith and candor regarding PTA advising the USPTO that the USPTO may have granted more PTA than applicant/patentee is entitled.",Number
+    patentTermAdjustmentHistoryDataBag,The recordation of patent case actions that are involved in the patent term adjustment calculation.,N/A
+    applicantDayDelayQuantity,This entry reflects adjustments of the patent term due to the Applicant's failure to engage in reasonable efforts to conclude prosecution of the application for the cumulative period in excess of three months. See 35 U.S.C. § 154(b)(2)(C)(ii) and implementing regulation 37 CFR 1.704(b). The entry also reflects additional Applicant's failure to engage in reasonable efforts to conclude prosecution of the application. See 35 U.S.C. § 154(b)(2)(C)(iii) and implementing regulations 37 CFR 1.704(c)(1)-(11).,Number
+      eventDate,The date that the symbol was assigned to the patent document.,Date
+      eventDescriptionText,event description.,String
+      eventSequenceNumber,Case action sequence number.,Number
+      ipOfficeDayDelayQuantity,Number of days the UPSTO personnel adjusting the calculation to increase or decrease the patent term adjustment based upon a request for reconsideration of the patent term adjustment.,Number
+      originatingEventSequenceNumber,Start sequence number.,Number
+      ptaPTECode,PTA or PTE code,PTA
+eventDataBag,Details of the contents of all transactions on an application/patent.,N/A
+  eventCode,The unique reference value (number and letters) for an application/patent transaction.,String
+  eventDescriptionText,Description of the Transaction's code.,String
+  eventDate,The date the patent case action was recorded.,Date
+pgpubDocumentMetaData,Details of PgPub document meta data.,N/A
+  zipFileName,Zip file name,String
+  productIdentifier,Product identifier.,String
+  fileLocationURI,File location URI.,String
+  fileCreateDateTime,The date file was created.,Date
+  xmlFileName,XML file name.,String
+grantDocumentMetaData,Grant document meta data.,N/A
+  zipFileName,Zip file name,String
+  productIdentifier,Product identifier.,String
+  fileLocationURI,File location URI.,String
+  fileCreateDateTime,The date file was created.,Date
+  xmlFileName,XML file name.,String
+lastIngestionDateTime,Date time when application was last modified.,Date
