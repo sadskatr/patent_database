@@ -1,12 +1,9 @@
-// ---- File: index.html ----
-
 {% extends "base.html" %}
 {% block title %}{{ tool_name }}{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-4 compact">
     <h2>{{ tool_name }}</h2>
-    <p class="lead">Search for patents using the USPTO Open Data Portal API</p>
     
     <!-- Search Parameters Form -->
     <div class="card mb-4">
@@ -24,9 +21,6 @@
                             <option value="boolean">Boolean</option>
                             <option value="field_specific">Field Specific</option>
                         </select>
-                        <small class="form-text text-muted search-type-help" id="simple-help">
-                            Simple keyword search across patent data
-                        </small>
                         <small class="form-text text-muted search-type-help d-none" id="boolean-help">
                             Combine multiple search terms with AND, OR, NOT operators
                         </small>
@@ -42,7 +36,6 @@
                     <div class="search-params" id="simple-params">
                         <div class="row mb-2">
                             <div class="col-md-12">
-                                <label for="simpleSearchTerm" class="form-label">Search Term</label>
                                 <input type="text" class="form-control" id="simpleSearchTerm" placeholder="Enter search term">
                                 <small class="form-text text-muted">Search across patent title and text</small>
                             </div>
