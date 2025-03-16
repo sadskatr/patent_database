@@ -279,6 +279,12 @@ th.active-sort .sort-icon {
     position: relative;
 }
 
+/* Table styling */
+.table th {
+    font-weight: 500;
+    position: relative;
+}
+
 /* Centered truncated text in table cells */
 .truncate-cell {
     max-width: 150px;
@@ -301,15 +307,19 @@ th.active-sort .sort-icon {
     max-width: 200px;
 }
 
-/* Modified column sizes */
+/* Apply word-wrap specifically to title column */
 .title-cell {
+    max-width: 400px;
+    white-space: normal !important; /* Override nowrap */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+    display: block; /* Change to block to take full width */
     font-weight: 500;
-    max-width: 400px; /* Increased from 300px */
 }
 
 .applicant-cell {
-    width: auto; /* Changed from fixed max-width to auto-width */
-    white-space: nowrap;
+    max-width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
 }
